@@ -37,10 +37,10 @@ Luban Loop does not promise that every task is easy. It promises that the agent 
 The installer includes the complete workflow dependency set:
 
 - `luban`: the public Luban Loop entrypoint
-- `think`: Chalkline / 墨斗 for requirement clarification and tradeoff decisions
-- `square`: Square / 规矩 for quality guardrails
-- `hunt`: Rootfinder / 寻因 for root-cause debugging
-- `check`: Gauge / 验尺 for readiness review
+- `luban/think`: Chalkline / 墨斗 for requirement clarification and tradeoff decisions
+- `luban/square`: Square / 规矩 for quality guardrails
+- `luban/hunt`: Rootfinder / 寻因 for root-cause debugging
+- `luban/check`: Gauge / 验尺 for readiness review
 
 ## Workflow
 

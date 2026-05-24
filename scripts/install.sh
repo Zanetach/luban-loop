@@ -6,10 +6,15 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 install_skill() {
   local target="$1"
   mkdir -p "$target"
-  for skill in luban think hunt check square; do
-    rm -rf "$target/$skill"
-    cp -R "$ROOT/skills/$skill" "$target/$skill"
-    echo "Installed $skill skill to $target/$skill"
+  rm -rf "$target/luban"
+  cp -R "$ROOT/skills/luban" "$target/luban"
+  echo "Installed luban skill to $target/luban"
+
+  for legacy in think hunt check square; do
+    if [[ -f "$target/$legacy/SKILL.md" ]] && [[ -f "$ROOT/skills/luban/$legacy/SKILL.md" ]] && cmp -s "$target/$legacy/SKILL.md" "$ROOT/skills/luban/$legacy/SKILL.md"; then
+      rm -rf "$target/$legacy"
+      echo "Removed legacy Luban module install at $target/$legacy"
+    fi
   done
 
   if [[ -f "$target/karpathy-guidelines/SKILL.md" ]] && grep -q "Karpathy Guidelines\\|Square" "$target/karpathy-guidelines/SKILL.md"; then

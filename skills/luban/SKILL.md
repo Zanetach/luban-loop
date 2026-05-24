@@ -6,7 +6,20 @@ license: MIT
 
 # Luban Loop
 
-One entrypoint for engineering work. This skill does not replace Waza or Quality Guardrails. It coordinates them into one closed loop.
+One entrypoint for engineering work. This skill bundles the Waza and Square modules inside the Luban directory and coordinates them into one closed loop.
+
+## Bundled Modules
+
+The public installed skill is `luban`. Its supporting modules are internal files under this skill directory:
+
+```text
+think/SKILL.md     # Chalkline / 墨斗
+square/SKILL.md    # Square / 规矩
+hunt/SKILL.md      # Rootfinder / 寻因
+check/SKILL.md     # Gauge / 验尺
+```
+
+When a phase says to use Chalkline, Square, Rootfinder, or Gauge, read the corresponding bundled `SKILL.md` file from this directory. Do not require these modules to be installed as separate top-level skills.
 
 ## Naming
 
@@ -15,10 +28,10 @@ Use the Luban names when explaining the workflow to users. Keep the underlying s
 | Luban name | Chinese | Underlying capability | Responsibility |
 | --- | --- | --- | --- |
 | Builder | 营造 | Luban | Own the delivery flow, implementation, and verification. |
-| Chalkline | 墨斗 | Waza think | Clarify requirements, decisions, boundaries, and tradeoffs. |
+| Chalkline | 墨斗 | `think/` | Clarify requirements, decisions, boundaries, and tradeoffs. |
 | Square | 规矩 | square | Keep implementation simple, disciplined, scoped, and verifiable. |
-| Rootfinder | 寻因 | Waza hunt | Diagnose failures and root causes before fixing symptoms. |
-| Gauge | 验尺 | Waza check | Review readiness, risks, diffs, and evidence before handoff. |
+| Rootfinder | 寻因 | `hunt/` | Diagnose failures and root causes before fixing symptoms. |
+| Gauge | 验尺 | `check/` | Review readiness, risks, diffs, and evidence before handoff. |
 | Seal | 落印 | Luban handoff | Output delivery notes, verification evidence, non-scope, and remaining risks. |
 
 ## Workflow Contract
@@ -35,7 +48,7 @@ requirement
   -> Seal         # summarize changes, evidence, non-scope, and remaining risk
 ```
 
-Builder owns orchestration, execution, and verification selection. Seal owns the final handoff. Waza owns specialist workflow phases. Square is not a single checklist item; it is the quality guardrail across plan, build, verify, and check.
+Builder owns orchestration, execution, and verification selection. Seal owns the final handoff. The bundled modules own specialist workflow phases. Square is not a single checklist item; it is the quality guardrail across plan, build, verify, and check.
 
 The user should only need to say:
 
@@ -70,9 +83,9 @@ Read the real project context before acting:
 
 Ask only when ambiguity would materially change the implementation. Otherwise state the assumption and proceed.
 
-If the request is only about product direction, architecture, or whether something should exist, load Waza `think` and stop after a decision-complete plan unless the user explicitly asks to implement.
+If the request is only about product direction, architecture, or whether something should exist, read `think/SKILL.md` and stop after a decision-complete plan unless the user explicitly asks to implement.
 
-If the user asks to implement, still use `think` only as much as needed to produce a compact execution plan, then continue to Build.
+If the user asks to implement, still use `think/SKILL.md` only as much as needed to produce a compact execution plan, then continue to Build.
 
 ## 2. Plan
 
@@ -105,7 +118,7 @@ Do not add a new runtime, service, framework, dependency, database, protocol, or
 
 ## 3. Build
 
-Before editing code, load `square` if available. Keep its rules active through Build, Verify, and Check:
+Before editing code, read `square/SKILL.md`. Keep its rules active through Build, Verify, and Check:
 
 - Make the smallest change that satisfies the requirement.
 - Do not add speculative flexibility or abstractions.
@@ -114,7 +127,7 @@ Before editing code, load `square` if available. Keep its rules active through B
 - Remove only unused code introduced by this change.
 - Every changed line must trace back to the request.
 
-Do not enter Rootfinder / Waza `hunt` by default. Load Waza `hunt` only when the task becomes a bug, regression, failing test, crash, unexpected runtime behavior, or unexplained mismatch between expected and actual output.
+Do not enter Rootfinder by default. Read `hunt/SKILL.md` only when the task becomes a bug, regression, failing test, crash, unexpected runtime behavior, or unexplained mismatch between expected and actual output.
 
 When `hunt` is triggered, diagnose the root cause before patching symptoms. The root cause should name a specific file, function, condition, or data path.
 
@@ -154,7 +167,7 @@ For frontend, game, visual, 3D, or audio work, do not treat syntax checks as suf
 
 ## 5. Check
 
-Before final handoff, load Gauge / Waza `check` when code, tests, schema, config, public API, release files, or shared behavior changed.
+Before final handoff, read `check/SKILL.md` when code, tests, schema, config, public API, release files, or shared behavior changed.
 
 Review the diff against the original requirement:
 
@@ -190,4 +203,4 @@ Do not call work complete unless:
 
 ## Fallback
 
-The installer should install Waza and Square. If an agent only has this `luban` skill, use the rules above directly, but say in the final handoff that specialist Waza/Square skills were not available in that environment.
+The installer should install one top-level `luban` skill with the Waza and Square modules nested inside it. If an environment only has `luban/SKILL.md` without the nested modules, use the rules above directly, but say in the final handoff that bundled specialist modules were not available in that environment.

@@ -74,20 +74,20 @@ One-line install:
 curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install-remote.sh | bash
 ```
 
-This installs the bundled Luban workflow skills into both agent skill locations:
+This installs one top-level `luban` skill into both agent skill locations. The Waza and Square modules are bundled inside the `luban` directory:
 
 ```text
 ~/.agents/skills/luban
-~/.agents/skills/think
-~/.agents/skills/hunt
-~/.agents/skills/check
-~/.agents/skills/square
+~/.agents/skills/luban/think
+~/.agents/skills/luban/hunt
+~/.agents/skills/luban/check
+~/.agents/skills/luban/square
 
 ~/.codex/skills/luban
-~/.codex/skills/think
-~/.codex/skills/hunt
-~/.codex/skills/check
-~/.codex/skills/square
+~/.codex/skills/luban/think
+~/.codex/skills/luban/hunt
+~/.codex/skills/luban/check
+~/.codex/skills/luban/square
 ```
 
 If you already cloned the repository, run the local installer:
@@ -111,10 +111,10 @@ This validates the bundled skill file and compiles the verification discovery sc
 ```text
 skills/luban/SKILL.md                      # Luban Loop skill instructions
 skills/luban/scripts/discover_verify.py    # repo-aware verification command discovery
-skills/think/                              # Waza Chalkline planning skill
-skills/hunt/                               # Waza Rootfinder debugging skill
-skills/check/                              # Waza Gauge review skill
-skills/square/                             # Square quality guardrails skill
+skills/luban/think/                        # internal Chalkline planning module
+skills/luban/hunt/                         # internal Rootfinder debugging module
+skills/luban/check/                        # internal Gauge review module
+skills/luban/square/                       # internal Square quality guardrails module
 docs/summary.md                            # external-facing project summary
 docs/luban-loop-flow.mmd                   # Mermaid workflow diagram
 assets/luban-loop-flow.svg                 # workflow diagram source image
