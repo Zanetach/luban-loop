@@ -1,0 +1,23 @@
+flowchart LR
+  A["Requirement<br/>需求输入"] --> B["Builder<br/>营造"]
+  B --> C["Chalkline<br/>墨斗"]
+  C --> D["Square<br/>规矩"]
+  D --> E["Build<br/>实作"]
+  E --> F{"Failure or mismatch?<br/>失败或不符合预期?"}
+  F -- "Yes / 是" --> G["Rootfinder<br/>寻因"]
+  G --> E
+  F -- "No / 否" --> H["Verify<br/>验证"]
+  H --> I["Gauge<br/>验尺"]
+  I --> J["Seal<br/>落印"]
+
+  classDef input fill:#102033,stroke:#37c7b8,color:#f5fbff
+  classDef work fill:#17253a,stroke:#ffd166,color:#f5fbff
+  classDef quality fill:#182d27,stroke:#5ee493,color:#f5fbff
+  classDef debug fill:#321c2a,stroke:#ff6f91,color:#f5fbff
+  classDef final fill:#2a2540,stroke:#a78bfa,color:#f5fbff
+
+  class A input
+  class B,C,E work
+  class D,H,I quality
+  class F,G debug
+  class J final
