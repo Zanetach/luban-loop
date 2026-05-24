@@ -66,6 +66,16 @@ Most agent workflows fail in one of four places:
 
 Luban Loop adds a lightweight structure around those failure points without turning every task into a heavy process.
 
+## Capabilities
+
+Luban bundles the complete Waza capability set plus Square quality guardrails inside one top-level skill:
+
+```text
+think, design, check, hunt, write, learn, read, health, square
+```
+
+See [Capability Review](docs/capability-review.md) for the full capability map, review findings, verification evidence, and remaining risks.
+
 ## Install
 
 One-line install:
@@ -132,6 +142,7 @@ skills/luban/health/                       # internal Waza health audit module
 skills/luban/square/                       # internal Square quality guardrails module
 skills/luban/rules/                        # internal Waza shared rules
 docs/summary.md                            # external-facing project summary
+docs/capability-review.md                  # capability map and review
 docs/luban-loop-flow.mmd                   # Mermaid workflow diagram
 assets/luban-loop-flow.svg                 # workflow diagram source image
 assets/luban-loop-flow.png                 # workflow diagram PNG
