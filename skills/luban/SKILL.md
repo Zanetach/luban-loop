@@ -1,6 +1,6 @@
 ---
-name: deliver
-description: Luban Loop end-to-end engineering workflow from requirement to implemented, verified, review-ready delivery. Use when the user asks to build, fix, implement, ship, land, use Luban, use deliver, or take a simple requirement to completion. This entrypoint orchestrates Waza think/hunt/check and Quality Guardrails as a closed delivery loop.
+name: luban
+description: Luban Loop end-to-end engineering workflow from requirement to implemented, verified, review-ready delivery. Use when the user asks to use Luban, build, fix, implement, ship, land, or take a simple requirement to completion. This entrypoint orchestrates Waza think/hunt/check and Quality Guardrails as a closed delivery loop.
 license: MIT
 ---
 
@@ -14,12 +14,12 @@ Use the Luban names when explaining the workflow to users. Keep the underlying s
 
 | Luban name | Chinese | Underlying capability | Responsibility |
 | --- | --- | --- | --- |
-| Builder | 营造 | deliver | Own the delivery flow, implementation, and verification. |
+| Builder | 营造 | Luban | Own the delivery flow, implementation, and verification. |
 | Chalkline | 墨斗 | Waza think | Clarify requirements, decisions, boundaries, and tradeoffs. |
 | Square | 规矩 | Quality Guardrails | Keep implementation simple, disciplined, scoped, and verifiable. |
 | Rootfinder | 寻因 | Waza hunt | Diagnose failures and root causes before fixing symptoms. |
 | Gauge | 验尺 | Waza check | Review readiness, risks, diffs, and evidence before handoff. |
-| Seal | 落印 | deliver handoff | Output delivery notes, verification evidence, non-scope, and remaining risks. |
+| Seal | 落印 | Luban handoff | Output delivery notes, verification evidence, non-scope, and remaining risks. |
 
 ## Workflow Contract
 
@@ -42,13 +42,6 @@ The user should only need to say:
 ```text
 用 Luban 实现：<需求>
 Use Luban to implement: <requirement>
-```
-
-The legacy entrypoint still works:
-
-```text
-用 deliver 实现：<需求>
-Use deliver to implement: <requirement>
 ```
 
 Common user-facing prompts:
@@ -93,7 +86,7 @@ Apply Square / Quality Guardrails during planning:
 Run repo-aware verification discovery before finalizing the plan when a repository is available. If `scripts/discover_verify.py` exists next to this `SKILL.md`, run:
 
 ```bash
-python3 <deliver-skill-dir>/scripts/discover_verify.py --root <repo-root>
+python3 <luban-skill-dir>/scripts/discover_verify.py --root <repo-root>
 ```
 
 Use the output to attach realistic verification to each step. Prefer high-confidence project-declared commands over inferred commands.
@@ -132,7 +125,7 @@ After the root cause is known, return to Build and make the smallest fix.
 Prefer project-declared verification over generic commands. If it was not already run during Plan, run the bundled discovery script:
 
 ```bash
-python3 <deliver-skill-dir>/scripts/discover_verify.py --root <repo-root>
+python3 <luban-skill-dir>/scripts/discover_verify.py --root <repo-root>
 ```
 
 Check the current repository for likely sources before choosing commands:
@@ -197,4 +190,4 @@ Do not call work complete unless:
 
 ## Fallback
 
-The installer should install Waza and Quality Guardrails. If an agent only has this `deliver` skill, use the rules above directly, but say in the final handoff that specialist Waza/Quality Guardrails skills were not available in that environment.
+The installer should install Waza and Quality Guardrails. If an agent only has this `luban` skill, use the rules above directly, but say in the final handoff that specialist Waza/Quality Guardrails skills were not available in that environment.

@@ -74,11 +74,11 @@ One-line install:
 curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install-remote.sh | bash
 ```
 
-This installs the bundled `deliver` skill into:
+This installs the bundled `luban` skill into:
 
 ```text
-~/.agents/skills/deliver
-~/.codex/skills/deliver
+~/.agents/skills/luban
+~/.codex/skills/luban
 ```
 
 If you already cloned the repository, run the local installer:
@@ -87,7 +87,7 @@ If you already cloned the repository, run the local installer:
 ./scripts/install.sh
 ```
 
-The public workflow name is **Luban Loop**. The installed skill name stays `deliver` for compatibility with existing agent skill systems.
+The public workflow name is **Luban Loop**. The installed skill name is `luban`.
 
 ## Verify
 
@@ -100,8 +100,8 @@ This validates the bundled skill file and compiles the verification discovery sc
 ## Repository Layout
 
 ```text
-skills/deliver/SKILL.md                    # Luban Loop skill instructions
-skills/deliver/scripts/discover_verify.py  # repo-aware verification command discovery
+skills/luban/SKILL.md                      # Luban Loop skill instructions
+skills/luban/scripts/discover_verify.py    # repo-aware verification command discovery
 docs/summary.md                            # external-facing project summary
 docs/luban-loop-flow.mmd                   # Mermaid workflow diagram
 assets/luban-loop-flow.svg                 # workflow diagram source image

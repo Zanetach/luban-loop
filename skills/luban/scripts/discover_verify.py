@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Discover project verification commands for the deliver skill."""
+"""Discover project verification commands for the Luban skill."""
 
 from __future__ import annotations
 

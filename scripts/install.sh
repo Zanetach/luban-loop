@@ -6,9 +6,14 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 install_skill() {
   local target="$1"
   mkdir -p "$target"
-  rm -rf "$target/deliver"
-  cp -R "$ROOT/skills/deliver" "$target/deliver"
-  echo "Installed deliver skill to $target/deliver"
+  rm -rf "$target/luban"
+  cp -R "$ROOT/skills/luban" "$target/luban"
+  echo "Installed luban skill to $target/luban"
+
+  if [[ -f "$target/deliver/SKILL.md" ]] && grep -q "Luban Loop" "$target/deliver/SKILL.md"; then
+    rm -rf "$target/deliver"
+    echo "Removed legacy Luban Loop install at $target/deliver"
+  fi
 }
 
 install_skill "${AGENTS_HOME:-$HOME/.agents}/skills"
