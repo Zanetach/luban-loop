@@ -68,7 +68,20 @@ Luban Loop adds a lightweight structure around those failure points without turn
 
 ## Install
 
-Install the bundled `deliver` skill locally:
+One-line install:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install-remote.sh | bash
+```
+
+This installs the bundled `deliver` skill into:
+
+```text
+~/.agents/skills/deliver
+~/.codex/skills/deliver
+```
+
+If you already cloned the repository, run the local installer:
 
 ```bash
 ./scripts/install.sh
@@ -96,6 +109,7 @@ assets/luban-loop-flow.png                 # workflow diagram PNG
 assets/luban-loop-card.svg                 # promotional card source image
 assets/luban-loop-card.png                 # promotional card PNG
 scripts/install.sh                         # local skill installer
+scripts/install-remote.sh                  # curl-based one-line installer
 scripts/verify.sh                          # local validation script
 ```
 
