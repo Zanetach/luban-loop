@@ -32,6 +32,16 @@ Luban Loop does not promise that every task is easy. It promises that the agent 
 - review readiness before handoff
 - report evidence and remaining risks
 
+## Bundled Skills
+
+The installer includes the complete workflow dependency set:
+
+- `luban`: the public Luban Loop entrypoint
+- `think`: Chalkline / 墨斗 for requirement clarification and tradeoff decisions
+- `karpathy-guidelines`: Square / 规矩 for quality guardrails
+- `hunt`: Rootfinder / 寻因 for root-cause debugging
+- `check`: Gauge / 验尺 for readiness review
+
 ## Workflow
 
 ```text
