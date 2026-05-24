@@ -10,7 +10,7 @@ install_skill() {
   cp -R "$ROOT/skills/luban" "$target/luban"
   echo "Installed luban skill to $target/luban"
 
-  for legacy in think hunt check square; do
+  for legacy in think design hunt check write learn read health square; do
     if [[ -f "$target/$legacy/SKILL.md" ]] && [[ -f "$ROOT/skills/luban/$legacy/SKILL.md" ]] && cmp -s "$target/$legacy/SKILL.md" "$ROOT/skills/luban/$legacy/SKILL.md"; then
       rm -rf "$target/$legacy"
       echo "Removed legacy Luban module install at $target/$legacy"

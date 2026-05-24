@@ -77,7 +77,7 @@ For release or maintainer work, also fill the Release Gate 2.0 matrix from `refe
 
 ## Durable Context Preflight
 
-See [rules/durable-context.md](../../rules/durable-context.md) for when to read durable context, the read-order budget, and the memory-type mapping.
+See [rules/durable-context.md](../rules/durable-context.md) for when to read durable context, the read-order budget, and the memory-type mapping.
 
 For `/check`, private task constraints are `decision`, `preference`, and `principle` entries; review checklists are `pattern` and `learning`. Current code, diff, public docs, CI, tests, and remote state override memory. Durable memory can explain user intent and preferred follow-through, but public project rules still come from README files, manifests, CI workflows, release docs, the diff, and explicit instructions in the current thread. Never cite private memory as a public project requirement.
 
@@ -140,7 +140,7 @@ Activate when the user asks for a project-wide code-quality scorecard: "audit", 
 
 **Flow**
 
-1. Run `python3 <waza>/skills/check/scripts/audit_signals.py --root <project>` from the target repo. The script emits ten labelled blocks (`=== FILE SIZE HOTSPOTS ===` ... `=== DENYLIST IN BUILD ===`) each ending with `status: PASS|WARN|FAIL`.
+1. Run `python3 <luban-skill-dir>/check/scripts/audit_signals.py --root <project>` from the target repo. The script emits ten labelled blocks (`=== FILE SIZE HOTSPOTS ===` ... `=== DENYLIST IN BUILD ===`) each ending with `status: PASS|WARN|FAIL`.
 2. Skim the largest source files surfaced by `FILE SIZE HOTSPOTS` (typically 3-5; stop sooner if the architecture is already clear).
 3. Read `CLAUDE.md` / `AGENTS.md` / `README.md` to learn the project's own stated conventions before judging it against generic ones.
 4. Apply the four-axis rubric below. Each axis is independently scored 0-10. Overall = arithmetic mean.
@@ -282,7 +282,7 @@ Use `gh` CLI for all GitHub interactions, not MCP or raw API. Confirm CI passes 
 
 ## Verification
 
-Run `bash scripts/run-tests.sh` from this skill directory, or the project's known verification command from the target repository. Paste the full output.
+Run `bash <luban-skill-dir>/check/scripts/run-tests.sh` from this skill directory, or the project's known verification command from the target repository. Paste the full output.
 
 If the script exits non-zero or prints `(no test command detected)`: halt. Do not claim done. Ask the user for the verification command before proceeding. If the user also cannot provide one, document this explicitly in the sign-off as `verification: none -- no command available` and flag it as a structural gap, not a pass.
 

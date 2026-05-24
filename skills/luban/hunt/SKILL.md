@@ -26,7 +26,7 @@ Rationalization warning: "I'll just try this" means no hypothesis, write it firs
 
 ## Durable Context Preflight
 
-See [rules/durable-context.md](../../rules/durable-context.md) for when to read durable context, the read-order budget, and the memory-type mapping.
+See [rules/durable-context.md](../rules/durable-context.md) for when to read durable context, the read-order budget, and the memory-type mapping.
 
 For `/hunt`, diagnostic constraints are `decision`, `preference`, and `principle` entries; `pattern` and `learning` can seed hypotheses. Current code, logs, repro steps, tests, environment versions, and remote state override memory. Durable context is hypothesis fuel only. It never replaces a fresh root-cause sentence, a reproducible symptom list, or evidence from the current state.
 

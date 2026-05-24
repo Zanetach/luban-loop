@@ -8,7 +8,7 @@ Each block ends with `status: PASS|WARN|FAIL` so the LLM driving the
 Pure stdlib. Read-only. Exits 0 even on WARN/FAIL so the harness does
 not confuse "finding surfaced" with "script broken".
 
-Run as: python3 skills/check/scripts/audit_signals.py --root <path>
+Run as: python3 skills/luban/check/scripts/audit_signals.py --root <path>
 """
 
 from __future__ import annotations

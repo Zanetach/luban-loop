@@ -79,14 +79,24 @@ This installs one top-level `luban` skill into both agent skill locations. The W
 ```text
 ~/.agents/skills/luban
 ~/.agents/skills/luban/think
+~/.agents/skills/luban/design
 ~/.agents/skills/luban/hunt
 ~/.agents/skills/luban/check
+~/.agents/skills/luban/write
+~/.agents/skills/luban/learn
+~/.agents/skills/luban/read
+~/.agents/skills/luban/health
 ~/.agents/skills/luban/square
 
 ~/.codex/skills/luban
 ~/.codex/skills/luban/think
+~/.codex/skills/luban/design
 ~/.codex/skills/luban/hunt
 ~/.codex/skills/luban/check
+~/.codex/skills/luban/write
+~/.codex/skills/luban/learn
+~/.codex/skills/luban/read
+~/.codex/skills/luban/health
 ~/.codex/skills/luban/square
 ```
 
@@ -112,9 +122,15 @@ This validates the bundled skill file and compiles the verification discovery sc
 skills/luban/SKILL.md                      # Luban Loop skill instructions
 skills/luban/scripts/discover_verify.py    # repo-aware verification command discovery
 skills/luban/think/                        # internal Chalkline planning module
+skills/luban/design/                       # internal Waza design module
 skills/luban/hunt/                         # internal Rootfinder debugging module
 skills/luban/check/                        # internal Gauge review module
+skills/luban/write/                        # internal Waza writing module
+skills/luban/learn/                        # internal Waza learning module
+skills/luban/read/                         # internal Waza reading module
+skills/luban/health/                       # internal Waza health audit module
 skills/luban/square/                       # internal Square quality guardrails module
+skills/luban/rules/                        # internal Waza shared rules
 docs/summary.md                            # external-facing project summary
 docs/luban-loop-flow.mmd                   # Mermaid workflow diagram
 assets/luban-loop-flow.svg                 # workflow diagram source image
@@ -124,6 +140,7 @@ assets/luban-loop-card.png                 # promotional card PNG
 scripts/install.sh                         # local skill installer
 scripts/install-remote.sh                  # curl-based one-line installer
 scripts/verify.sh                          # local validation script
+NOTICE.md                                  # upstream attribution
 ```
 
 ## License

@@ -6,20 +6,26 @@ license: MIT
 
 # Luban Loop
 
-One entrypoint for engineering work. This skill bundles the Waza and Square modules inside the Luban directory and coordinates them into one closed loop.
+One entrypoint for engineering work. This skill bundles the full Waza skill set and Square guardrails inside the Luban directory and coordinates them into one closed loop.
 
 ## Bundled Modules
 
 The public installed skill is `luban`. Its supporting modules are internal files under this skill directory:
 
 ```text
-think/SKILL.md     # Chalkline / 墨斗
-square/SKILL.md    # Square / 规矩
-hunt/SKILL.md      # Rootfinder / 寻因
-check/SKILL.md     # Gauge / 验尺
+think/SKILL.md     # Chalkline / 墨斗: planning and tradeoffs
+design/SKILL.md    # Design / 造型: frontend and interface design
+check/SKILL.md     # Gauge / 验尺: review and release readiness
+hunt/SKILL.md      # Rootfinder / 寻因: root-cause debugging
+write/SKILL.md     # Write / 润文: prose rewrite and polish
+learn/SKILL.md     # Learn / 学艺: domain research synthesis
+read/SKILL.md      # Read / 取材: URL/PDF/source reading
+health/SKILL.md    # Health / 巡检: agent and project health audit
+square/SKILL.md    # Square / 规矩: quality guardrails
+rules/             # Waza shared rules used by bundled modules
 ```
 
-When a phase says to use Chalkline, Square, Rootfinder, or Gauge, read the corresponding bundled `SKILL.md` file from this directory. Do not require these modules to be installed as separate top-level skills.
+When a phase says to use a bundled module, read the corresponding bundled `SKILL.md` file from this directory. Do not require these modules to be installed as separate top-level skills.
 
 ## Naming
 
@@ -33,6 +39,8 @@ Use the Luban names when explaining the workflow to users. Keep the underlying s
 | Rootfinder | 寻因 | `hunt/` | Diagnose failures and root causes before fixing symptoms. |
 | Gauge | 验尺 | `check/` | Review readiness, risks, diffs, and evidence before handoff. |
 | Seal | 落印 | Luban handoff | Output delivery notes, verification evidence, non-scope, and remaining risks. |
+
+Additional bundled Waza modules are available when the task calls for them: `design/`, `write/`, `learn/`, `read/`, and `health/`.
 
 ## Workflow Contract
 
