@@ -38,7 +38,7 @@ The installer includes the complete workflow dependency set:
 
 - `luban`: the public Luban Loop entrypoint
 - `think`: Chalkline / 墨斗 for requirement clarification and tradeoff decisions
-- `karpathy-guidelines`: Square / 规矩 for quality guardrails
+- `square`: Square / 规矩 for quality guardrails
 - `hunt`: Rootfinder / 寻因 for root-cause debugging
 - `check`: Gauge / 验尺 for readiness review
 

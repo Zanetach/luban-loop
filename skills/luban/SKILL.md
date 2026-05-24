@@ -16,7 +16,7 @@ Use the Luban names when explaining the workflow to users. Keep the underlying s
 | --- | --- | --- | --- |
 | Builder | 营造 | Luban | Own the delivery flow, implementation, and verification. |
 | Chalkline | 墨斗 | Waza think | Clarify requirements, decisions, boundaries, and tradeoffs. |
-| Square | 规矩 | Quality Guardrails | Keep implementation simple, disciplined, scoped, and verifiable. |
+| Square | 规矩 | square | Keep implementation simple, disciplined, scoped, and verifiable. |
 | Rootfinder | 寻因 | Waza hunt | Diagnose failures and root causes before fixing symptoms. |
 | Gauge | 验尺 | Waza check | Review readiness, risks, diffs, and evidence before handoff. |
 | Seal | 落印 | Luban handoff | Output delivery notes, verification evidence, non-scope, and remaining risks. |
@@ -105,7 +105,7 @@ Do not add a new runtime, service, framework, dependency, database, protocol, or
 
 ## 3. Build
 
-Before editing code, load `karpathy-guidelines` if available. Treat it as Square / Quality Guardrails and keep its rules active through Build, Verify, and Check:
+Before editing code, load `square` if available. Keep its rules active through Build, Verify, and Check:
 
 - Make the smallest change that satisfies the requirement.
 - Do not add speculative flexibility or abstractions.
@@ -190,4 +190,4 @@ Do not call work complete unless:
 
 ## Fallback
 
-The installer should install Waza and Quality Guardrails. If an agent only has this `luban` skill, use the rules above directly, but say in the final handoff that specialist Waza/Quality Guardrails skills were not available in that environment.
+The installer should install Waza and Square. If an agent only has this `luban` skill, use the rules above directly, but say in the final handoff that specialist Waza/Square skills were not available in that environment.

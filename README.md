@@ -81,13 +81,13 @@ This installs the bundled Luban workflow skills into both agent skill locations:
 ~/.agents/skills/think
 ~/.agents/skills/hunt
 ~/.agents/skills/check
-~/.agents/skills/karpathy-guidelines
+~/.agents/skills/square
 
 ~/.codex/skills/luban
 ~/.codex/skills/think
 ~/.codex/skills/hunt
 ~/.codex/skills/check
-~/.codex/skills/karpathy-guidelines
+~/.codex/skills/square
 ```
 
 If you already cloned the repository, run the local installer:
@@ -114,7 +114,7 @@ skills/luban/scripts/discover_verify.py    # repo-aware verification command dis
 skills/think/                              # Waza Chalkline planning skill
 skills/hunt/                               # Waza Rootfinder debugging skill
 skills/check/                              # Waza Gauge review skill
-skills/karpathy-guidelines/                # Square quality guardrails skill
+skills/square/                             # Square quality guardrails skill
 docs/summary.md                            # external-facing project summary
 docs/luban-loop-flow.mmd                   # Mermaid workflow diagram
 assets/luban-loop-flow.svg                 # workflow diagram source image
