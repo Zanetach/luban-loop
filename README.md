@@ -81,10 +81,18 @@ See [Capability Review](docs/capability-review.md) for the full capability map, 
 One-line install:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | bash
 ```
 
-This installs one top-level `luban` skill into both agent skill locations. The Waza and Square modules are bundled inside the `luban` directory:
+This downloads the repository archive, then installs one top-level `luban` skill into Agents, Codex, and Claude Code skill locations. If you run `./scripts/install.sh` from a cloned checkout, it installs directly from the local files.
+
+The installer prints terminal status messages for each target path and ends with the user-facing Luban process:
+
+```text
+Requirement -> Builder -> Chalkline -> Square -> Build -> Rootfinder -> Verify -> Gauge -> Seal
+```
+
+The Waza and Square modules are bundled inside the `luban` directory:
 
 ```text
 ~/.agents/skills/luban
@@ -108,6 +116,17 @@ This installs one top-level `luban` skill into both agent skill locations. The W
 ~/.codex/skills/luban/read
 ~/.codex/skills/luban/health
 ~/.codex/skills/luban/square
+
+~/.claude/skills/luban
+~/.claude/skills/luban/think
+~/.claude/skills/luban/design
+~/.claude/skills/luban/hunt
+~/.claude/skills/luban/check
+~/.claude/skills/luban/write
+~/.claude/skills/luban/learn
+~/.claude/skills/luban/read
+~/.claude/skills/luban/health
+~/.claude/skills/luban/square
 ```
 
 If you already cloned the repository, run the local installer:
@@ -117,6 +136,7 @@ If you already cloned the repository, run the local installer:
 ```
 
 The public workflow name is **Luban Loop**. The installed skill name is `luban`.
+In Claude Code, this creates the personal skill command `/luban` from `~/.claude/skills/luban/SKILL.md`.
 
 ## Verify
 
@@ -148,9 +168,9 @@ assets/luban-loop-flow.svg                 # workflow diagram source image
 assets/luban-loop-flow.png                 # workflow diagram PNG
 assets/luban-loop-card.svg                 # promotional card source image
 assets/luban-loop-card.png                 # promotional card PNG
-scripts/install.sh                         # local skill installer
-scripts/install-remote.sh                  # curl-based one-line installer
-scripts/verify.sh                          # local validation script
+scripts/install.sh                         # one-line and local skill installer
+scripts/install-remote.sh                  # compatibility wrapper for the old remote installer URL
+scripts/verify.sh                          # local validation script, including install smoke tests
 NOTICE.md                                  # upstream attribution
 ```
 

@@ -64,7 +64,7 @@ Specialized modules are available when needed, but they do not clutter the top-l
 One-line install:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install-remote.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | bash
 ```
 
 Install result:
@@ -72,9 +72,12 @@ Install result:
 ```text
 ~/.agents/skills/luban
 ~/.codex/skills/luban
+~/.claude/skills/luban
 ```
 
 The installer copies the complete bundled directory. It does not separately fetch Waza or Square during install. Those capabilities are already included in the repository archive.
+
+`scripts/install.sh` is the single public installer: it installs from a local checkout when the repository is present, and bootstraps from GitHub when run through `curl | bash`.
 
 ## Review Findings
 
@@ -83,8 +86,9 @@ The installer copies the complete bundled directory. It does not separately fetc
 - One clean top-level skill: `luban`.
 - Full Waza capability set is bundled under `luban`.
 - Square provides the quality guardrails while using Luban naming.
-- Install works for both `~/.agents/skills` and `~/.codex/skills`.
+- Install works for `~/.agents/skills`, `~/.codex/skills`, and Claude Code's `~/.claude/skills`.
 - Verification script checks skill presence, Python helper compilation, shell script syntax, and important bundled references.
+- Verification script smoke-tests local install output for Agents, Codex, and Claude Code targets.
 - GitHub Actions now runs `./scripts/verify.sh` on pushes and pull requests.
 - Upstream attribution is documented in `NOTICE.md`.
 
@@ -101,10 +105,10 @@ Commands run locally:
 ```bash
 ./scripts/verify.sh
 python3 skills/luban/check/scripts/audit_signals.py --root /Users/zane/Documents/Github/luban-loop
-curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install-remote.sh | bash -n
+curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | bash -n
 ```
 
-Install smoke test used temporary `AGENTS_HOME` and `CODEX_HOME` directories and confirmed these installed files:
+Install smoke test used temporary `AGENTS_HOME`, `CODEX_HOME`, and `CLAUDE_HOME` directories and confirmed these installed files:
 
 ```text
 luban/SKILL.md

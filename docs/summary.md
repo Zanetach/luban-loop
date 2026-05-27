@@ -34,7 +34,7 @@ Luban Loop does not promise that every task is easy. It promises that the agent 
 
 ## Bundled Skills
 
-The installer includes the complete workflow dependency set:
+The installer includes the complete workflow dependency set for Agents, Codex, and Claude Code:
 
 - `luban`: the public Luban Loop entrypoint
 - `luban/think`: Waza Chalkline / 墨斗 for requirement clarification and tradeoff decisions

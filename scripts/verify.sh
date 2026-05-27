@@ -38,6 +38,24 @@ bash -n "$ROOT/skills/luban/health/scripts/check-verifier-output.sh"
 bash -n "$ROOT/skills/luban/health/scripts/collect-data.sh"
 bash -n "$ROOT/skills/luban/read/scripts/fetch.sh"
 
+INSTALL_TMP="$(mktemp -d)"
+cleanup() {
+  rm -rf "$INSTALL_TMP"
+}
+trap cleanup EXIT
+
+AGENTS_HOME="$INSTALL_TMP/agents" \
+CODEX_HOME="$INSTALL_TMP/codex" \
+CLAUDE_HOME="$INSTALL_TMP/claude" \
+  bash "$ROOT/scripts/install.sh" >/dev/null
+
+test -f "$INSTALL_TMP/agents/skills/luban/SKILL.md"
+test -f "$INSTALL_TMP/codex/skills/luban/SKILL.md"
+test -f "$INSTALL_TMP/claude/skills/luban/SKILL.md"
+test -f "$INSTALL_TMP/claude/skills/luban/think/SKILL.md"
+test -f "$INSTALL_TMP/claude/skills/luban/check/SKILL.md"
+test -f "$INSTALL_TMP/claude/skills/luban/square/SKILL.md"
+
 grep -q "name: luban" "$ROOT/skills/luban/SKILL.md"
 grep -q "Luban Loop" "$ROOT/skills/luban/SKILL.md"
 grep -q "Builder" "$ROOT/skills/luban/SKILL.md"
