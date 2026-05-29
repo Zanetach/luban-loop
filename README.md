@@ -1,32 +1,21 @@
-# Luban Loop
+<div align="center">
+  <img src="assets/luban-loop-card.png" width="760" alt="Luban Loop" />
+  <h1>Luban Loop</h1>
+  <p><b>From requirement to verified delivery.</b></p>
+  <p><b>从一句需求，到实现、验证、评审和带证据的交付。</b></p>
+  <a href="https://github.com/Zanetach/luban-loop/stargazers"><img src="https://img.shields.io/github/stars/Zanetach/luban-loop?style=flat-square" alt="Stars"></a>
+  <a href="https://github.com/Zanetach/luban-loop/releases"><img src="https://img.shields.io/github/v/tag/Zanetach/luban-loop?label=version&style=flat-square" alt="Version"></a>
+  <a href="https://github.com/Zanetach/luban-loop/actions/workflows/verify.yml"><img src="https://img.shields.io/github/actions/workflow/status/Zanetach/luban-loop/verify.yml?branch=main&label=verify&style=flat-square" alt="Verify"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square" alt="License"></a>
+</div>
 
-**Luban Loop** is a bilingual engineering delivery workflow for AI coding agents. It turns a plain requirement into implementation, verification, review, and a final handoff with evidence.
+## Why
 
-**鲁班闭环** 是一个面向 AI 编程 Agent 的工程交付 workflow：从需求描述出发，推进到实现、验证、评审和带证据的交付说明。
+Luban Loop is a bilingual engineering delivery workflow for AI coding agents. It gives the user one simple instruction, then makes the agent accountable for the work normally expected from a careful engineer: read the real project, clarify decisions when needed, keep the change scoped, debug root causes, run verification, review the diff, and hand off with evidence.
 
-![Luban Loop card](assets/luban-loop-card.png)
+鲁班闭环不是提示词合集，也不是把任务拆成很多空步骤。它是一个闭环交付协议：小任务保持轻量，风险任务自动加强规划、寻因、验证和评审；用户不需要反复追问“继续吗”，Agent 应该把可完成的工作做完。
 
-## Use It
-
-```text
-Use Luban to implement: <requirement>
-用 Luban 实现：<需求>
-```
-
-Other common prompts:
-
-```text
-Use Luban to fix: <bug or broken behavior>
-用 Luban 修复：<问题>
-
-Use Luban to analyze: <decision or proposal>
-用 Luban 分析：<方向或方案>
-
-Use Luban to review: <current changes>
-用 Luban 检查：<当前改动>
-```
-
-## Workflow
+## See It
 
 ![Luban Loop flow](assets/luban-loop-flow.png)
 
@@ -42,37 +31,59 @@ Requirement / 需求输入
   -> Seal / 落印
 ```
 
-## Roles
+## Use It
 
-| Role | Chinese | Responsibility |
-| --- | --- | --- |
-| Builder | 营造 | Owns the goal, project context, implementation flow, and verification selection. |
-| Chalkline | 墨斗 | Clarifies requirements, decisions, boundaries, and tradeoffs. |
-| Square | 规矩 | Keeps implementation simple, disciplined, scoped, and verifiable. |
-| Build | 实作 | Makes the smallest complete change that fits the existing project. |
-| Rootfinder | 寻因 | Diagnoses root causes before fixing failures or unexpected behavior. |
-| Verify | 验证 | Runs tests, QA, browser/runtime checks, and collects evidence. |
-| Gauge | 验尺 | Reviews the diff, risks, gaps, quality guardrails, and readiness. |
-| Seal | 落印 | Outputs delivery notes, verification evidence, non-scope, and remaining risks. |
+Ask for the public entrypoint, then describe the job:
+
+```text
+Use Luban to implement: <requirement>
+用 Luban 实现：<需求>
+```
+
+Common patterns:
+
+```text
+Use Luban to fix: <bug or broken behavior>
+用 Luban 修复：<问题>
+
+Use Luban to analyze: <decision or proposal>
+用 Luban 分析：<方向或方案>
+
+Use Luban to review: <current changes>
+用 Luban 检查：<当前改动>
+```
+
+The installed public surface is one top-level `luban` skill. Specialist modules are bundled inside that skill directory and are orchestrated by the Luban entrypoint.
 
 ## What It Solves
 
-Most agent workflows fail in one of four places:
+Most AI coding failures happen at the boundaries, not inside a single edit:
 
-- They start coding before the requirement is decision-complete.
-- They over-design small tasks and add unnecessary abstractions.
-- They fix symptoms without finding the root cause.
-- They claim completion without reproducible verification evidence.
+| Failure point | Luban response |
+|---|---|
+| Coding starts before the requirement is decision-complete | Chalkline clarifies boundaries, tradeoffs, and success criteria |
+| The patch grows beyond the actual need | Square keeps the change scoped, simple, and verifiable |
+| The agent patches symptoms | Rootfinder diagnoses the failure before changing code |
+| Completion is claimed without proof | Verify runs project-relevant checks and captures evidence |
+| Risk is hidden in the handoff | Gauge reviews the diff, gaps, and release readiness |
+| Users only get a vague summary | Seal reports changes, verification, non-scope, and remaining risk |
 
-Luban Loop adds a lightweight structure around those failure points without turning every task into a heavy process.
+## Bundled Modules
 
-## Capabilities
+Luban installs one top-level `luban` skill and keeps the supporting modules under `luban/`:
 
-Luban bundles the complete specialist module set plus Square quality guardrails inside one top-level skill:
-
-```text
-think, design, check, hunt, write, learn, read, health, square
-```
+| Module | Luban name | Purpose |
+|---|---|---|
+| `luban/SKILL.md` | Builder / 营造 | Owns context reading, execution flow, verification choice, and final delivery |
+| `think/` | Chalkline / 墨斗 | Clarifies requirements, decisions, tradeoffs, and implementation plans |
+| `design/` | Design / 造型 | Guides UI, frontend, layout, interaction, and visual polish work |
+| `hunt/` | Rootfinder / 寻因 | Finds root causes for failures, regressions, crashes, and broken behavior |
+| `check/` | Gauge / 验尺 | Reviews diffs, release readiness, risks, and evidence quality |
+| `write/` | Write / 润文 | Polishes Chinese and English prose, docs, releases, and public copy |
+| `learn/` | Learn / 学艺 | Turns unfamiliar domains or source bundles into structured synthesis |
+| `read/` | Read / 取材 | Reads URLs, PDFs, and source material for downstream work |
+| `health/` | Health / 巡检 | Audits agent setup, instructions, verification surfaces, and maintainability |
+| `square/` | Square / 规矩 | Provides quality guardrails for simplicity, scope, assumptions, and verification |
 
 See [Capability Review](docs/capability-review.md) for the full capability map, review findings, verification evidence, and remaining risks.
 
@@ -84,105 +95,79 @@ Install the latest stable release:
 curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | bash
 ```
 
-This command resolves GitHub's latest release tag automatically, downloads that release archive, then installs one top-level `luban` skill into Agents, Codex, and Claude Code skill locations.
-
-Pinned, development, and local checkout installs are covered in [Release Runbook](docs/release.md).
-
-The installer prints terminal status messages for each target path and ends with the user-facing Luban process:
-
-```text
-Requirement -> Builder -> Chalkline -> Square -> Build -> Rootfinder -> Verify -> Gauge -> Seal
-```
-
-The specialist modules and Square guardrails are bundled inside the `luban` directory:
+The installer resolves GitHub's latest release tag automatically, downloads that release archive, then installs the bundled `luban` skill into supported agent locations:
 
 ```text
 ~/.agents/skills/luban
-~/.agents/skills/luban/think
-~/.agents/skills/luban/design
-~/.agents/skills/luban/hunt
-~/.agents/skills/luban/check
-~/.agents/skills/luban/write
-~/.agents/skills/luban/learn
-~/.agents/skills/luban/read
-~/.agents/skills/luban/health
-~/.agents/skills/luban/square
-
 ~/.codex/skills/luban
-~/.codex/skills/luban/think
-~/.codex/skills/luban/design
-~/.codex/skills/luban/hunt
-~/.codex/skills/luban/check
-~/.codex/skills/luban/write
-~/.codex/skills/luban/learn
-~/.codex/skills/luban/read
-~/.codex/skills/luban/health
-~/.codex/skills/luban/square
-
 ~/.claude/skills/luban
-~/.claude/skills/luban/think
-~/.claude/skills/luban/design
-~/.claude/skills/luban/hunt
-~/.claude/skills/luban/check
-~/.claude/skills/luban/write
-~/.claude/skills/luban/learn
-~/.claude/skills/luban/read
-~/.claude/skills/luban/health
-~/.claude/skills/luban/square
 ```
 
-If you already cloned the repository, run the local installer:
+If the repository is already cloned, install from the local checkout:
 
 ```bash
 ./scripts/install.sh
 ```
 
-The public workflow name is **Luban Loop**. The installed skill name is `luban`.
-In Claude Code, this creates the personal skill command `/luban` from `~/.claude/skills/luban/SKILL.md`.
+Pinned release, development, and local install details are documented in [Release Runbook](docs/release.md).
 
 ## Verify
+
+Run the project-declared verification command:
 
 ```bash
 ./scripts/verify.sh
 ```
 
-This validates the bundled skill file, compiles helper scripts, runs behavior tests, checks Luban-owned semantic contracts, and smoke-tests local installation.
+It validates the skill bundle, compiles helper scripts, checks shell syntax, runs behavior tests, checks semantic contracts, and smoke-tests installation into temporary Agents, Codex, and Claude Code skill directories.
 
-## Release
-
-See [Release Runbook](docs/release.md) for tagged release steps and pinned install verification.
+GitHub Actions runs the same verifier on pushes, pull requests, and version tags.
 
 ## Repository Layout
 
 ```text
-skills/luban/SKILL.md                      # Luban Loop skill instructions
-skills/luban/scripts/discover_verify.py    # repo-aware verification command discovery
-skills/luban/think/                        # internal Chalkline planning module
-skills/luban/design/                       # internal design module
-skills/luban/hunt/                         # internal Rootfinder debugging module
-skills/luban/check/                        # internal Gauge review module
-skills/luban/write/                        # internal writing module
-skills/luban/learn/                        # internal research module
-skills/luban/read/                         # internal source reading module
-skills/luban/health/                       # internal health audit module
-skills/luban/square/                       # internal Square quality guardrails module
-skills/luban/rules/                        # internal shared rules
+skills/luban/SKILL.md                      # public Luban Loop entrypoint
+skills/luban/scripts/discover_verify.py    # repo-aware verification discovery
+skills/luban/think/                        # Chalkline planning and tradeoff module
+skills/luban/design/                       # interface and visual design module
+skills/luban/hunt/                         # root-cause debugging module
+skills/luban/check/                        # review and release readiness module
+skills/luban/write/                        # prose polishing module
+skills/luban/learn/                        # research synthesis module
+skills/luban/read/                         # source reading module
+skills/luban/health/                       # agent and project health audit module
+skills/luban/square/                       # quality guardrails module
+skills/luban/rules/                        # shared workflow and language rules
 docs/summary.md                            # external-facing project summary
-docs/capability-review.md                  # capability map and review
-docs/luban-loop-flow.mmd                   # Mermaid workflow diagram
-assets/luban-loop-flow.svg                 # workflow diagram source image
-assets/luban-loop-flow.png                 # workflow diagram PNG
-assets/luban-loop-card.svg                 # promotional card source image
-assets/luban-loop-card.png                 # promotional card PNG
-scripts/install.sh                         # one-line and local skill installer
-scripts/install-remote.sh                  # compatibility wrapper for the old remote installer URL
-scripts/verify.sh                          # local validation script, including install smoke tests
-scripts/check_semantic_contract.py         # semantic guard for Luban-owned behavior
-tests/test_discover_verify.py              # behavior tests for verification discovery
+docs/capability-review.md                  # capability map and review evidence
+docs/release.md                            # release and install runbook
+assets/luban-loop-flow.*                   # workflow diagram
+assets/luban-loop-card.*                   # project card
+scripts/install.sh                         # public installer and local installer
+scripts/install-remote.sh                  # compatibility wrapper
+scripts/verify.sh                          # local verification script
+scripts/check_semantic_contract.py         # semantic guard for Luban behavior
+tests/test_discover_verify.py              # verification discovery tests
 VERSION                                    # release version source
 NOTICE.md                                  # upstream attribution
 ```
 
+## Design Contract
+
+Luban Loop stays deliberately small at the user surface:
+
+| Principle | Rule |
+|---|---|
+| One entrypoint | Users invoke `luban`; bundled modules stay internal |
+| Closed loop | Implementation requests continue through build, verify, review, and handoff |
+| Evidence first | Final delivery names commands, outputs, changed files, and remaining risk |
+| Scope discipline | Repository boundaries are explicit; unrelated projects do not leak into docs or delivery |
+| Lightweight by default | Small changes stay small; risky changes receive stronger process |
+
+## Release
+
+Current version is recorded in [VERSION](VERSION). Release steps are kept in [docs/release.md](docs/release.md), including tagged install verification with `LUBAN_LOOP_REF`.
+
 ## License
 
-MIT
+MIT License. See [LICENSE](LICENSE).
