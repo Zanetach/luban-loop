@@ -87,7 +87,7 @@ curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/in
 After a release tag exists, use a pinned install for reproducible behavior:
 
 ```bash
-VERSION_TAG="v0.1.0"
+VERSION_TAG="v0.1.1"
 curl -fsSL "https://raw.githubusercontent.com/Zanetach/luban-loop/${VERSION_TAG}/scripts/install.sh" | LUBAN_LOOP_REF="${VERSION_TAG}" bash
 ```
 

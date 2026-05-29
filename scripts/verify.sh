@@ -56,6 +56,12 @@ bash -n "$ROOT/skills/luban/read/scripts/fetch.sh"
 python3 "$ROOT/scripts/check_semantic_contract.py"
 python3 -m unittest "$ROOT/tests/test_discover_verify.py"
 
+ARCHIVE_TMP="$(mktemp -d)"
+mkdir -p "$ARCHIVE_TMP/luban-loop-test/scripts"
+cp "$ROOT/scripts/install.sh" "$ARCHIVE_TMP/luban-loop-test/scripts/install.sh"
+test -n "$(find "$ARCHIVE_TMP" -maxdepth 3 -type f -path "*/scripts/install.sh" -print -quit)"
+rm -rf "$ARCHIVE_TMP"
+
 INSTALL_TMP="$(mktemp -d)"
 cleanup() {
   rm -rf "$INSTALL_TMP"

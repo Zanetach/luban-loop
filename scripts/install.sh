@@ -55,7 +55,7 @@ bootstrap_from_github() {
   curl -fsSL "$archive_url" | tar -xz -C "$tmp_dir"
 
   local root
-  root="$(find "$tmp_dir" -maxdepth 2 -type f -path "*/scripts/install.sh" -print -quit)"
+  root="$(find "$tmp_dir" -maxdepth 3 -type f -path "*/scripts/install.sh" -print -quit)"
   root="$(cd "$(dirname "$root")/.." 2>/dev/null && pwd -P || true)"
   if [[ -z "$root" || ! -f "$root/scripts/install.sh" ]]; then
     echo "Could not find Luban Loop installer in downloaded archive." >&2
