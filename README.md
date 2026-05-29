@@ -86,19 +86,7 @@ curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/in
 
 This command resolves GitHub's latest release tag automatically, downloads that release archive, then installs one top-level `luban` skill into Agents, Codex, and Claude Code skill locations.
 
-For release verification or reproducible installs, pin a specific ref:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | LUBAN_LOOP_REF=v0.1.3 bash
-```
-
-To intentionally track active development instead of the latest stable release:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | LUBAN_LOOP_REF=main bash
-```
-
-If you run `./scripts/install.sh` from a cloned checkout, it installs directly from the local files. See `VERSION` and [Release Runbook](docs/release.md) before creating a release tag.
+Pinned, development, and local checkout installs are covered in [Release Runbook](docs/release.md).
 
 The installer prints terminal status messages for each target path and ends with the user-facing Luban process:
 

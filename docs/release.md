@@ -29,6 +29,14 @@ Use this only when intentionally tracking active development:
 curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | LUBAN_LOOP_REF=main bash
 ```
 
+## Local Checkout Install
+
+If the repository is already cloned, install directly from local files:
+
+```bash
+./scripts/install.sh
+```
+
 ## Release Checklist
 
 1. Update `VERSION`.
