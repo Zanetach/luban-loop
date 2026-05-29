@@ -67,6 +67,8 @@ One-line install:
 curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | bash
 ```
 
+The one-line installer resolves GitHub's latest release tag automatically. A specific ref can still be pinned with `LUBAN_LOOP_REF` for release verification.
+
 Install result:
 
 ```text
@@ -77,7 +79,7 @@ Install result:
 
 The installer copies the complete bundled directory. It does not separately fetch specialist modules or Square during install. Those capabilities are already included in the repository archive.
 
-`scripts/install.sh` is the single public installer: it installs from a local checkout when the repository is present, and bootstraps from GitHub when run through `curl | bash`.
+`scripts/install.sh` is the single public installer: it installs from a local checkout when the repository is present, and bootstraps from the latest stable GitHub release when run through `curl | bash`.
 
 ## Review Findings
 
@@ -94,7 +96,7 @@ The installer copies the complete bundled directory. It does not separately fetc
 
 ### Remaining Risks
 
-- The documented one-line installer tracks `main`, which is convenient for updates but not reproducible. For stable releases, publish a tag and document a pinned install URL.
+- The one-line installer depends on GitHub release metadata being available. Release verification should still pin `LUBAN_LOOP_REF` to the new tag before publishing the handoff.
 - Nested specialist modules are bundled as internal resources, so agents must enter through `luban` to get the intended orchestration. Direct top-level calls like `think` are intentionally not installed.
 - Upstream specialist module and Square content was vendored at the time of integration. Future upstream changes require a deliberate sync.
 
@@ -133,6 +135,6 @@ Verification posture: 8/10
 Release reproducibility: 7/10
 ```
 
-Overall: **8.4/10**.
+Overall: **8.6/10**.
 
-The main next improvement is tagged releases with pinned install commands.
+The main next improvement is broader behavior-level regression coverage around installer failure paths.

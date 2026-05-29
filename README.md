@@ -78,20 +78,27 @@ See [Capability Review](docs/capability-review.md) for the full capability map, 
 
 ## Install
 
-Current install tracks `main`:
+Install the latest stable release:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | bash
 ```
 
-After a release tag exists, use a pinned install for reproducible behavior:
+This command resolves GitHub's latest release tag automatically, downloads that release archive, then installs one top-level `luban` skill into Agents, Codex, and Claude Code skill locations.
+
+For release verification or reproducible installs, pin a specific ref:
 
 ```bash
-VERSION_TAG="v0.1.3"
-curl -fsSL "https://raw.githubusercontent.com/Zanetach/luban-loop/${VERSION_TAG}/scripts/install.sh" | LUBAN_LOOP_REF="${VERSION_TAG}" bash
+curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | LUBAN_LOOP_REF=v0.1.3 bash
 ```
 
-Both commands download the repository archive, then install one top-level `luban` skill into Agents, Codex, and Claude Code skill locations. If you run `./scripts/install.sh` from a cloned checkout, it installs directly from the local files. See `VERSION` and [Release Runbook](docs/release.md) before creating a pinned tag.
+To intentionally track active development instead of the latest stable release:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | LUBAN_LOOP_REF=main bash
+```
+
+If you run `./scripts/install.sh` from a cloned checkout, it installs directly from the local files. See `VERSION` and [Release Runbook](docs/release.md) before creating a release tag.
 
 The installer prints terminal status messages for each target path and ends with the user-facing Luban process:
 

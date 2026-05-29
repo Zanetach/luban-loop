@@ -101,6 +101,8 @@ def main() -> int:
         [
             "Luban Loop",
             "one top-level `luban` skill",
+            "Install the latest stable release:",
+            "resolves GitHub's latest release tag automatically",
             "./scripts/verify.sh",
         ],
     )
@@ -108,9 +110,19 @@ def main() -> int:
     errors += require_contains(
         "docs/release.md",
         [
-            "Stable: install from a tagged release.",
+            "Stable: installs the latest tagged release by default.",
+            "resolves GitHub's latest release tag automatically",
             "LUBAN_LOOP_REF",
             "Do not create a release tag from a dirty worktree.",
+        ],
+    )
+
+    errors += require_contains(
+        "scripts/install.sh",
+        [
+            "resolve_ref",
+            "https://github.com/${REPO}/releases/latest",
+            "Set LUBAN_LOOP_REF explicitly to install a specific ref.",
         ],
     )
 

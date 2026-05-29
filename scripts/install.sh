@@ -2,7 +2,7 @@
 set -euo pipefail
 
 REPO="${LUBAN_LOOP_REPO:-Zanetach/luban-loop}"
-REF="${LUBAN_LOOP_REF:-main}"
+REF="${LUBAN_LOOP_REF:-}"
 
 if [[ -t 1 && -z "${NO_COLOR:-}" ]]; then
   BOLD="$(printf '\033[1m')"
@@ -25,6 +25,25 @@ need_cmd() {
   fi
 }
 
+resolve_ref() {
+  if [[ -n "$REF" ]]; then
+    printf '%s\n' "$REF"
+    return 0
+  fi
+
+  local latest_url latest_ref
+  latest_url="$(curl -fsSLI -o /dev/null -w '%{url_effective}' "https://github.com/${REPO}/releases/latest" || true)"
+  latest_ref="${latest_url##*/}"
+
+  if [[ "$latest_url" == */releases/tag/* && -n "$latest_ref" && "$latest_ref" != "latest" ]]; then
+    printf '%s\n' "$latest_ref"
+    return 0
+  fi
+
+  echo "Could not resolve the latest Luban Loop release. Set LUBAN_LOOP_REF explicitly to install a specific ref." >&2
+  exit 1
+}
+
 resolve_local_root() {
   local source="${BASH_SOURCE[0]:-$0}"
   local root
@@ -42,7 +61,9 @@ bootstrap_from_github() {
   need_cmd curl
   need_cmd tar
 
-  local archive_url="https://github.com/${REPO}/archive/${REF}.tar.gz"
+  local ref
+  ref="$(resolve_ref)"
+  local archive_url
   local tmp_dir
   tmp_dir="$(mktemp -d)"
 
@@ -51,7 +72,9 @@ bootstrap_from_github() {
   }
   trap cleanup EXIT
 
-  echo "${CYAN}==>${RESET} Downloading ${BOLD}Luban Loop${RESET} from ${REPO}@${REF}"
+  archive_url="https://github.com/${REPO}/archive/${ref}.tar.gz"
+
+  echo "${CYAN}==>${RESET} Downloading ${BOLD}Luban Loop${RESET} from ${REPO}@${ref}"
   curl -fsSL "$archive_url" | tar -xz -C "$tmp_dir"
 
   local root
@@ -62,7 +85,7 @@ bootstrap_from_github() {
     exit 1
   fi
 
-  LUBAN_LOOP_BOOTSTRAPPED=1 bash "$root/scripts/install.sh"
+  LUBAN_LOOP_BOOTSTRAPPED=1 LUBAN_LOOP_REF="$ref" bash "$root/scripts/install.sh"
 }
 
 print_logo() {
