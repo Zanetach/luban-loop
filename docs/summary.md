@@ -37,14 +37,14 @@ Luban Loop does not promise that every task is easy. It promises that the agent 
 The installer includes the complete workflow dependency set for Agents, Codex, and Claude Code:
 
 - `luban`: the public Luban Loop entrypoint
-- `luban/think`: Waza Chalkline / 墨斗 for requirement clarification and tradeoff decisions
-- `luban/design`: Waza design workflow for frontend/interface work
-- `luban/check`: Waza Gauge / 验尺 for readiness review
-- `luban/hunt`: Waza Rootfinder / 寻因 for root-cause debugging
-- `luban/write`: Waza writing workflow for prose polish
-- `luban/learn`: Waza research and synthesis workflow
-- `luban/read`: Waza source reading workflow
-- `luban/health`: Waza agent/project health audit workflow
+- `luban/think`: Chalkline / 墨斗 for requirement clarification and tradeoff decisions
+- `luban/design`: design workflow for frontend/interface work
+- `luban/check`: Gauge / 验尺 for readiness review
+- `luban/hunt`: Rootfinder / 寻因 for root-cause debugging
+- `luban/write`: writing workflow for prose polish
+- `luban/learn`: research and synthesis workflow
+- `luban/read`: source reading workflow
+- `luban/health`: agent/project health audit workflow
 - `luban/square`: Square / 规矩 quality guardrails, with upstream Karpathy-inspired references bundled
 
 ## Workflow

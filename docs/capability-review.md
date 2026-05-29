@@ -2,7 +2,7 @@
 
 ## Verdict
 
-Luban Loop is now a real integrated workflow package, not a thin wrapper. It installs one top-level `luban` skill and bundles the complete Waza capability set plus Square quality guardrails inside that skill directory.
+Luban Loop is now a real integrated workflow package, not a thin wrapper. It installs one top-level `luban` skill and bundles the complete specialist module set plus Square quality guardrails inside that skill directory.
 
 ```text
 skills/luban/
@@ -34,7 +34,7 @@ skills/luban/
 | Source reading | `luban/read` | Fetches URLs and PDFs as clean Markdown for citation, reading, and downstream synthesis. |
 | Agent/project health | `luban/health` | Audits Codex/Claude setup, instruction surfaces, verification quality, and maintainability signals. |
 | Quality guardrails | `luban/square` | Enforces simplicity, surgical changes, explicit assumptions, and verifiable success criteria. |
-| Shared rules | `luban/rules` | Provides Waza shared durable-context, language, and anti-pattern rules used by bundled modules. |
+| Shared rules | `luban/rules` | Provides durable-context, language, and anti-pattern rules used by bundled modules. |
 
 ## User-Facing Workflow
 
@@ -75,7 +75,7 @@ Install result:
 ~/.claude/skills/luban
 ```
 
-The installer copies the complete bundled directory. It does not separately fetch Waza or Square during install. Those capabilities are already included in the repository archive.
+The installer copies the complete bundled directory. It does not separately fetch specialist modules or Square during install. Those capabilities are already included in the repository archive.
 
 `scripts/install.sh` is the single public installer: it installs from a local checkout when the repository is present, and bootstraps from GitHub when run through `curl | bash`.
 
@@ -84,7 +84,7 @@ The installer copies the complete bundled directory. It does not separately fetc
 ### Strengths
 
 - One clean top-level skill: `luban`.
-- Full Waza capability set is bundled under `luban`.
+- Full specialist module set is bundled under `luban`.
 - Square provides the quality guardrails while using Luban naming.
 - Install works for `~/.agents/skills`, `~/.codex/skills`, and Claude Code's `~/.claude/skills`.
 - Verification script checks skill presence, Python helper compilation, shell script syntax, and important bundled references.
@@ -95,8 +95,8 @@ The installer copies the complete bundled directory. It does not separately fetc
 ### Remaining Risks
 
 - The documented one-line installer tracks `main`, which is convenient for updates but not reproducible. For stable releases, publish a tag and document a pinned install URL.
-- Nested Waza modules are bundled as internal resources, so agents must enter through `luban` to get the intended orchestration. Direct top-level calls like `think` are intentionally not installed.
-- Upstream Waza and Square content was vendored at the time of integration. Future upstream changes require a deliberate sync.
+- Nested specialist modules are bundled as internal resources, so agents must enter through `luban` to get the intended orchestration. Direct top-level calls like `think` are intentionally not installed.
+- Upstream specialist module and Square content was vendored at the time of integration. Future upstream changes require a deliberate sync.
 
 ## Verification Evidence
 

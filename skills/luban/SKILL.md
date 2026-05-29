@@ -1,12 +1,12 @@
 ---
 name: luban
-description: Luban Loop end-to-end engineering workflow from requirement to implemented, verified, review-ready delivery. Use when the user asks to use Luban, analyze, review, build, fix, implement, scaffold, create or continue a project, ship, land, or take a requirement to completion. This entrypoint orchestrates Waza think/hunt/check and Quality Guardrails as a closed delivery loop.
+description: Luban Loop end-to-end engineering workflow from requirement to implemented, verified, review-ready delivery. Use when the user asks to use Luban, analyze, review, build, fix, implement, scaffold, create or continue a project, ship, land, or take a requirement to completion. This entrypoint orchestrates bundled specialist modules and Quality Guardrails as a closed delivery loop.
 license: MIT
 ---
 
 # Luban Loop
 
-One entrypoint for engineering work. This skill bundles the full Waza skill set and Square guardrails inside the Luban directory and coordinates them into one closed loop.
+One entrypoint for engineering work. This skill bundles specialist modules and Square guardrails inside the Luban directory and coordinates them into one closed loop.
 
 ## Bundled Modules
 
@@ -22,7 +22,7 @@ learn/SKILL.md     # Learn / 学艺: domain research synthesis
 read/SKILL.md      # Read / 取材: URL/PDF/source reading
 health/SKILL.md    # Health / 巡检: agent and project health audit
 square/SKILL.md    # Square / 规矩: quality guardrails
-rules/             # Waza shared rules used by bundled modules
+rules/             # shared rules used by bundled modules
 ```
 
 When a phase says to use a bundled module, read the corresponding bundled `SKILL.md` file from this directory. Do not require these modules to be installed as separate top-level skills.
@@ -40,7 +40,7 @@ Use the Luban names when explaining the workflow to users. Keep the underlying s
 | Gauge | 验尺 | `check/` | Review readiness, risks, diffs, and evidence before handoff. |
 | Seal | 落印 | Luban handoff | Output delivery notes, verification evidence, non-scope, and remaining risks. |
 
-Additional bundled Waza modules are available when the task calls for them: `design/`, `write/`, `learn/`, `read/`, and `health/`.
+Additional bundled modules are available when the task calls for them: `design/`, `write/`, `learn/`, `read/`, and `health/`.
 
 ## Workflow Contract
 
@@ -331,4 +331,4 @@ Do not call work complete unless:
 
 ## Fallback
 
-The installer should install one top-level `luban` skill with the Waza and Square modules nested inside it. If an environment only has `luban/SKILL.md` without the nested modules, use the rules above directly, but say in the final handoff that bundled specialist modules were not available in that environment.
+The installer should install one top-level `luban` skill with specialist modules and Square nested inside it. If an environment only has `luban/SKILL.md` without the nested modules, use the rules above directly, but say in the final handoff that bundled specialist modules were not available in that environment.

@@ -120,10 +120,19 @@ def main() -> int:
         "semantic version in MAJOR.MINOR.PATCH form",
     )
 
-    for public_path in ("README.md", "NOTICE.md", "skills/luban/SKILL.md"):
+    for public_path in (
+        "README.md",
+        "NOTICE.md",
+        "docs/capability-review.md",
+        "docs/summary.md",
+        "skills/luban/SKILL.md",
+    ):
         errors += require_absent(
             public_path,
             [
+                "Waza",
+                "waza",
+                "tw93/Waza",
                 "sync-waza.py",
                 "sync-square.py",
                 ".upstream-waza",

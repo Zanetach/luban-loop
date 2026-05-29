@@ -68,7 +68,7 @@ Luban Loop adds a lightweight structure around those failure points without turn
 
 ## Capabilities
 
-Luban bundles the complete Waza capability set plus Square quality guardrails inside one top-level skill:
+Luban bundles the complete specialist module set plus Square quality guardrails inside one top-level skill:
 
 ```text
 think, design, check, hunt, write, learn, read, health, square
@@ -87,7 +87,7 @@ curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/in
 After a release tag exists, use a pinned install for reproducible behavior:
 
 ```bash
-VERSION_TAG="v0.1.2"
+VERSION_TAG="v0.1.3"
 curl -fsSL "https://raw.githubusercontent.com/Zanetach/luban-loop/${VERSION_TAG}/scripts/install.sh" | LUBAN_LOOP_REF="${VERSION_TAG}" bash
 ```
 
@@ -99,7 +99,7 @@ The installer prints terminal status messages for each target path and ends with
 Requirement -> Builder -> Chalkline -> Square -> Build -> Rootfinder -> Verify -> Gauge -> Seal
 ```
 
-The Waza and Square modules are bundled inside the `luban` directory:
+The specialist modules and Square guardrails are bundled inside the `luban` directory:
 
 ```text
 ~/.agents/skills/luban
@@ -163,15 +163,15 @@ See [Release Runbook](docs/release.md) for tagged release steps and pinned insta
 skills/luban/SKILL.md                      # Luban Loop skill instructions
 skills/luban/scripts/discover_verify.py    # repo-aware verification command discovery
 skills/luban/think/                        # internal Chalkline planning module
-skills/luban/design/                       # internal Waza design module
+skills/luban/design/                       # internal design module
 skills/luban/hunt/                         # internal Rootfinder debugging module
 skills/luban/check/                        # internal Gauge review module
-skills/luban/write/                        # internal Waza writing module
-skills/luban/learn/                        # internal Waza learning module
-skills/luban/read/                         # internal Waza reading module
-skills/luban/health/                       # internal Waza health audit module
+skills/luban/write/                        # internal writing module
+skills/luban/learn/                        # internal research module
+skills/luban/read/                         # internal source reading module
+skills/luban/health/                       # internal health audit module
 skills/luban/square/                       # internal Square quality guardrails module
-skills/luban/rules/                        # internal Waza shared rules
+skills/luban/rules/                        # internal shared rules
 docs/summary.md                            # external-facing project summary
 docs/capability-review.md                  # capability map and review
 docs/luban-loop-flow.mmd                   # Mermaid workflow diagram

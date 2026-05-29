@@ -4,7 +4,7 @@ Luban Loop bundles and integrates upstream skill content so a single install pro
 
 ## Bundled Upstream Content
 
-- Waza by Tw93: <https://github.com/tw93/Waza>
+- Upstream specialist skill modules by Tw93.
   - Bundled under `skills/luban/{think,design,check,hunt,write,learn,read,health,rules}`.
   - Upstream license: MIT.
 
