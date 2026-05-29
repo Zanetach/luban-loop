@@ -78,13 +78,20 @@ See [Capability Review](docs/capability-review.md) for the full capability map, 
 
 ## Install
 
-One-line install:
+Current install tracks `main`:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/Zanetach/luban-loop/main/scripts/install.sh | bash
 ```
 
-This downloads the repository archive, then installs one top-level `luban` skill into Agents, Codex, and Claude Code skill locations. If you run `./scripts/install.sh` from a cloned checkout, it installs directly from the local files.
+After a release tag exists, use a pinned install for reproducible behavior:
+
+```bash
+VERSION_TAG="v0.1.0"
+curl -fsSL "https://raw.githubusercontent.com/Zanetach/luban-loop/${VERSION_TAG}/scripts/install.sh" | LUBAN_LOOP_REF="${VERSION_TAG}" bash
+```
+
+Both commands download the repository archive, then install one top-level `luban` skill into Agents, Codex, and Claude Code skill locations. If you run `./scripts/install.sh` from a cloned checkout, it installs directly from the local files. See `VERSION` and [Release Runbook](docs/release.md) before creating a pinned tag.
 
 The installer prints terminal status messages for each target path and ends with the user-facing Luban process:
 
@@ -144,7 +151,11 @@ In Claude Code, this creates the personal skill command `/luban` from `~/.claude
 ./scripts/verify.sh
 ```
 
-This validates the bundled skill file and compiles the verification discovery script.
+This validates the bundled skill file, compiles helper scripts, runs behavior tests, checks Luban-owned semantic contracts, and smoke-tests local installation.
+
+## Release
+
+See [Release Runbook](docs/release.md) for tagged release steps and pinned install verification.
 
 ## Repository Layout
 
@@ -171,6 +182,9 @@ assets/luban-loop-card.png                 # promotional card PNG
 scripts/install.sh                         # one-line and local skill installer
 scripts/install-remote.sh                  # compatibility wrapper for the old remote installer URL
 scripts/verify.sh                          # local validation script, including install smoke tests
+scripts/check_semantic_contract.py         # semantic guard for Luban-owned behavior
+tests/test_discover_verify.py              # behavior tests for verification discovery
+VERSION                                    # release version source
 NOTICE.md                                  # upstream attribution
 ```
 

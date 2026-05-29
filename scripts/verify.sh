@@ -19,16 +19,23 @@ test -f "$ROOT/skills/luban/square/.upstream-square.json"
 test -f "$ROOT/skills/luban/rules/durable-context.md"
 test -f "$ROOT/skills/luban/square/references/upstream/CLAUDE.md"
 test -f "$ROOT/skills/luban/square/references/upstream/.cursor/rules/square.mdc"
+test -f "$ROOT/VERSION"
+test -f "$ROOT/docs/release.md"
 test -f "$ROOT/scripts/install.sh"
 test -f "$ROOT/scripts/install-remote.sh"
 test -f "$ROOT/scripts/sync-waza.py"
 test -f "$ROOT/scripts/sync-square.py"
+test -f "$ROOT/scripts/check_semantic_contract.py"
+test -f "$ROOT/tests/test_discover_verify.py"
 
+grep -Eq '^[0-9]+[.][0-9]+[.][0-9]+$' "$ROOT/VERSION"
 python3 -m json.tool "$ROOT/skills/luban/.upstream-waza.json" >/dev/null
 python3 -m json.tool "$ROOT/skills/luban/square/.upstream-square.json" >/dev/null
 python3 -m py_compile "$ROOT/skills/luban/scripts/discover_verify.py"
 python3 -m py_compile "$ROOT/scripts/sync-waza.py"
 python3 -m py_compile "$ROOT/scripts/sync-square.py"
+python3 -m py_compile "$ROOT/scripts/check_semantic_contract.py"
+python3 -m py_compile "$ROOT/tests/test_discover_verify.py"
 python3 -m py_compile "$ROOT/skills/luban/check/scripts/audit_signals.py"
 python3 -m py_compile "$ROOT/skills/luban/health/scripts/check_agent_context.py"
 python3 -m py_compile "$ROOT/skills/luban/health/scripts/check_doc_refs.py"
@@ -45,6 +52,9 @@ bash -n "$ROOT/skills/luban/health/scripts/check-maintainability.sh"
 bash -n "$ROOT/skills/luban/health/scripts/check-verifier-output.sh"
 bash -n "$ROOT/skills/luban/health/scripts/collect-data.sh"
 bash -n "$ROOT/skills/luban/read/scripts/fetch.sh"
+
+python3 "$ROOT/scripts/check_semantic_contract.py"
+python3 -m unittest "$ROOT/tests/test_discover_verify.py"
 
 INSTALL_TMP="$(mktemp -d)"
 cleanup() {

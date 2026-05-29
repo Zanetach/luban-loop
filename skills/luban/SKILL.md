@@ -1,6 +1,6 @@
 ---
 name: luban
-description: Luban Loop end-to-end engineering workflow from requirement to implemented, verified, review-ready delivery. Use when the user asks to use Luban, analyze, review, build, fix, implement, scaffold, create a project from scratch, ship, land, or take a simple requirement to completion. This entrypoint orchestrates Waza think/hunt/check and Quality Guardrails as a closed delivery loop.
+description: Luban Loop end-to-end engineering workflow from requirement to implemented, verified, review-ready delivery. Use when the user asks to use Luban, analyze, review, build, fix, implement, scaffold, create or continue a project, ship, land, or take a requirement to completion. This entrypoint orchestrates Waza think/hunt/check and Quality Guardrails as a closed delivery loop.
 license: MIT
 ---
 
@@ -98,17 +98,17 @@ Everything else should be handled by stating the assumption and proceeding. If a
 
 ## Project Mode Contract
 
-When the user asks for a project, app, tool, site, plugin, service, workflow, or product "from 0 to 1", Luban enters Project Mode. Project Mode is still the same loop; it just owns a larger delivery surface.
+When the requirement implies a project-level result, Luban enters Project Mode. This does not require the user to say "from scratch", "from 0 to 1", or "project mode". Project Mode applies both to new projects and to existing projects that need a requirement carried through to a working product slice.
 
-Project Mode goal: produce a runnable, inspectable result, not a concept, plan, scaffold-only shell, or list of next steps.
+Project Mode goal: turn a requirement into a runnable, inspectable project result, not a concept, plan, scaffold-only shell, partial module, or list of next steps.
 
-Builder must automatically decompose the project into modules and phases, then execute each phase without waiting for approval:
+Builder must detect whether the delivery surface is project-level by reading the request and repository context. If the work requires multiple modules, screens, commands, routes, services, data surfaces, generated artifacts, or integration steps to produce a usable result, treat it as Project Mode and automatically decompose the work into phases without waiting for approval:
 
 ```text
 intent
-  -> product slice      # smallest complete result that proves the project
+  -> product slice      # smallest complete result that proves the requirement
   -> module map         # screens, commands, data, services, styles, tests, docs, or deploy surface
-  -> scaffold/build     # create the project structure and core modules
+  -> scaffold/build     # create or extend the project structure and core modules
   -> module loops       # for each module: build -> verify -> fix -> verify
   -> integration loop   # connect modules and verify the user-facing flow
   -> polish loop        # fill obvious missing states, docs, and rough edges required for the result
@@ -119,6 +119,7 @@ intent
 Rules:
 
 - Pick the smallest complete product slice that can be run or inspected end to end.
+- For a new project, create the minimum structure needed for that slice. For an existing project, preserve current architecture and extend the smallest surfaces needed for that slice.
 - Generate modules automatically from the goal and current stack. A module can be a source file, component, command, route, API, data model, style surface, test, fixture, README section, installer, or generated artifact.
 - Each module gets its own loop: implement the module, verify its local behavior, fix failures, then continue to the next module.
 - After module loops, run an integration loop that exercises the complete user path or artifact.
