@@ -1,6 +1,6 @@
 ---
 name: luban
-description: Luban Loop end-to-end engineering workflow from requirement to implemented, verified, review-ready delivery. Use when the user asks to use Luban, analyze, review, build, fix, implement, ship, land, or take a simple requirement to completion. This entrypoint orchestrates Waza think/hunt/check and Quality Guardrails as a closed delivery loop.
+description: Luban Loop end-to-end engineering workflow from requirement to implemented, verified, review-ready delivery. Use when the user asks to use Luban, analyze, review, build, fix, implement, scaffold, create a project from scratch, ship, land, or take a simple requirement to completion. This entrypoint orchestrates Waza think/hunt/check and Quality Guardrails as a closed delivery loop.
 license: MIT
 ---
 
@@ -96,6 +96,38 @@ Use a compact plan as an internal steering artifact, then execute it in the same
 
 Everything else should be handled by stating the assumption and proceeding. If a check fails, enter Rootfinder when needed, diagnose, patch, and rerun the relevant checks. The loop ends only when the requirement is satisfied with evidence or a concrete blocker remains.
 
+## Project Mode Contract
+
+When the user asks for a project, app, tool, site, plugin, service, workflow, or product "from 0 to 1", Luban enters Project Mode. Project Mode is still the same loop; it just owns a larger delivery surface.
+
+Project Mode goal: produce a runnable, inspectable result, not a concept, plan, scaffold-only shell, or list of next steps.
+
+Builder must automatically decompose the project into modules and phases, then execute each phase without waiting for approval:
+
+```text
+intent
+  -> product slice      # smallest complete result that proves the project
+  -> module map         # screens, commands, data, services, styles, tests, docs, or deploy surface
+  -> scaffold/build     # create the project structure and core modules
+  -> module loops       # for each module: build -> verify -> fix -> verify
+  -> integration loop   # connect modules and verify the user-facing flow
+  -> polish loop        # fill obvious missing states, docs, and rough edges required for the result
+  -> final verification # run the strongest practical checks
+  -> Seal
+```
+
+Rules:
+
+- Pick the smallest complete product slice that can be run or inspected end to end.
+- Generate modules automatically from the goal and current stack. A module can be a source file, component, command, route, API, data model, style surface, test, fixture, README section, installer, or generated artifact.
+- Each module gets its own loop: implement the module, verify its local behavior, fix failures, then continue to the next module.
+- After module loops, run an integration loop that exercises the complete user path or artifact.
+- Do not stop at "project skeleton created" unless the user explicitly asked only for a skeleton.
+- Do not ask the user to choose routine implementation details. Choose defaults that fit the existing workspace, explain them briefly in Seal, and continue.
+- If there is no existing stack, choose the simplest common stack that satisfies the request and can be verified locally. A new runtime, paid service, external account, deployment target, database, or broad infrastructure choice still follows the Autonomy Contract boundary.
+- If the requested result is visual or interactive, verify a rendered/runtime surface, not only typecheck or build.
+- Remaining modules can be listed in Seal only when they are intentionally outside the first complete product slice, blocked by a real boundary, or lower priority than the delivered runnable result.
+
 ## Plan Contract
 
 Plan is a contract, not a separate specialist capability. Use the agent's native planning when available; otherwise fall back to this minimal Luban shape before Build:
@@ -103,7 +135,7 @@ Plan is a contract, not a separate specialist capability. Use the agent's native
 ```text
 Goal: <what must be true when done>
 Surface: <source, docs, config, schema, package, install path, service, or release surface>
-Steps: <2-5 concrete steps, each with verify>
+Steps: <2-5 concrete steps, each with verify; in Project Mode, include module loops and integration verification>
 Stop Conditions: <only the decision boundaries that require user input>
 Done Evidence: <commands, artifacts, screenshots, runtime checks, or remote state that prove completion>
 ```
@@ -113,6 +145,7 @@ Rules:
 - Keep it compact. A plan that slows down a small fix violates Luban.
 - Every step must bind to a surface and a verification signal.
 - For implementation requests, execute after planning without asking for approval.
+- For Project Mode, the plan must name the first complete product slice, generated module map, module-loop verification, and final integration check.
 - For analysis or architecture requests, the plan can be the final deliverable.
 - If the native plan lacks surface, verification, stop conditions, or done evidence, patch those gaps using this contract before building.
 
