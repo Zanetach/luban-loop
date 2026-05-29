@@ -47,7 +47,7 @@ bootstrap_from_github() {
   tmp_dir="$(mktemp -d)"
 
   cleanup() {
-    rm -rf "$tmp_dir"
+    rm -rf "${tmp_dir:-}"
   }
   trap cleanup EXIT
 

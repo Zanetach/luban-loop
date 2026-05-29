@@ -62,6 +62,13 @@ cp "$ROOT/scripts/install.sh" "$ARCHIVE_TMP/luban-loop-test/scripts/install.sh"
 test -n "$(find "$ARCHIVE_TMP" -maxdepth 3 -type f -path "*/scripts/install.sh" -print -quit)"
 rm -rf "$ARCHIVE_TMP"
 
+TMP_DIR_SCOPE_TEST="$(mktemp -d)"
+cleanup_scope_test() {
+  rm -rf "${tmp_dir:-}"
+}
+cleanup_scope_test
+rm -rf "$TMP_DIR_SCOPE_TEST"
+
 INSTALL_TMP="$(mktemp -d)"
 cleanup() {
   rm -rf "$INSTALL_TMP"
