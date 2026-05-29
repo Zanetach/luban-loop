@@ -1,11 +1,11 @@
 ---
 name: health
-description: "Runs a budget-aware Agent Health audit for Codex, Claude Code, agent instructions, hooks/MCP, verifier surfaces, and AI maintainability. Use when users ask 检查claude/检查codex/配置检查/健康度 or report agents ignoring instructions, missing validation, or code becoming hard to maintain. Not for debugging code or reviewing PRs."
-when_to_use: "检查claude, 检查codex, Codex 配置, AGENTS.md, config.toml, agent instructions, 健康度, 配置检查, 配置对不对, AI coding 腐化, 代码变烂, 维护性, 上下文混乱, 验证缺失, 验证命令失真, Claude ignoring instructions, check config, settings not working, audit config"
-dispatch_intent: "Codex/Claude ignoring instructions, agent config audit, hooks/MCP broken, health token usage, AI coding code rot, hotspot ownership, unclear context, missing verification, stale verifier output"
+description: "Runs a budget-aware agent-assisted engineering health audit for instruction/config drift, hooks/MCP, verifier surfaces, and AI maintainability. Use when users ask 检查claude/检查codex/检查pi/配置检查/健康度 or report agents ignoring instructions, missing validation, or code becoming hard to maintain. Not for debugging code or reviewing PRs."
+when_to_use: "检查claude, 检查codex, 检查pi, Codex 配置, Pi 配置, AGENTS.md, config.toml, agent instructions, 健康度, 配置检查, 配置对不对, AI coding 腐化, 代码变烂, 维护性, 上下文混乱, 验证缺失, 验证命令失真, Claude ignoring instructions, Pi coding agent, check config, settings not working, audit config"
+dispatch_intent: "Codex/Claude/Pi ignoring instructions, agent config audit, hooks/MCP broken, health token usage, AI coding code rot, hotspot ownership, unclear context, missing verification, stale verifier output"
 ---
 
-# Health: Agent Config and AI Maintainability
+# Health: Agent-Assisted Engineering Health
 
 Prefix your first line with 🥷 inline, not as its own paragraph.
 
@@ -14,13 +14,25 @@ Audit the current project's agent setup and AI coding maintainability against th
 
 Find violations. Identify the misaligned layer. Calibrate to project complexity only.
 
+## Outcome Contract
+
+- Outcome: a budget-aware health report that separates agent configuration risk from AI maintainability risk.
+- Done when: each finding names the misaligned layer, the concrete evidence, and a copy-pasteable action or diagnostic command.
+- Evidence: collected health script output, tracked project instructions, runtime config summaries, verifier logs, hooks/MCP surfaces, and live probes when needed.
+- Output: prioritized findings with status, impact, and next action, or a clear clean bill with residual risk.
+
+Two lanes share one report:
+
+- **Agent config health**: Codex/Claude/Pi instruction drift, permissions, hooks, MCP, skills, and memory supply chain.
+- **AI maintainability health**: project context surface, verifier wrapper, generated-artifact checks, hotspot ownership, and stale or misleading durable docs.
+
 **Output language:** Check in order: (1) project agent instructions (`AGENTS.md` before runtime-specific files); (2) global agent instructions; (3) user's recent language; (4) English.
 
 **Budget posture:** Start with the summary audit. Escalate automatically when the user asks for a deep, full, complete, thorough, "深入", "完整", "彻底", or "继续跑完" audit, when the user explicitly mentions AI coding code rot, Codex/Claude config drift, unclear context, missing verification, verifier output that points at stale paths, or "代码变烂", when current project instructions or remembered user preference says to run deep health checks by default, when the project is Complex, or when the summary pass exposes a critical ambiguity that cannot be resolved locally. Otherwise do not read full conversation extracts or launch inspector subagents. Tell the user before escalating because deep health audits can consume significant token quota.
 
 ## Durable Context Preflight
 
-See [rules/durable-context.md](../rules/durable-context.md) for when to read durable context, the read-order budget, and the memory-type mapping.
+See [rules/durable-context.md](../../rules/durable-context.md) for when to read durable context, the read-order budget, and the memory-type mapping.
 
 For `/health`, audit expectations are `decision`, `preference`, and `principle` entries; checks for repeated failures are `pattern` and `learning`. Current CLAUDE.md, installed skills, hooks, MCP config, command output, and live probes override memory. Also flag durable memory problems when they affect behavior: oversized injected summaries, stale or contradictory entries, missing project entrypoint references, or private paths copied into public instructions. Keep these as context findings, not code-review findings.
 
@@ -41,12 +53,14 @@ Pick one. Apply only that tier's requirements.
 Run the collection script in summary mode first. Do not interpret yet.
 
 ```bash
-# Resolve collect-data.sh from canonical locations (no personal home-dir paths).
+# Resolve collect-data.sh from Luban's nested skill layout.
 HEALTH_SCRIPT="${LUBAN_SKILL_DIR:+$LUBAN_SKILL_DIR/health/scripts/collect-data.sh}"
 if [ ! -f "${HEALTH_SCRIPT:-}" ]; then
   for candidate in \
+    "./skills/luban/health/scripts/collect-data.sh" \
     "$HOME/.agents/skills/luban/health/scripts/collect-data.sh" \
-    "$HOME/.codex/skills/luban/health/scripts/collect-data.sh"; do
+    "$HOME/.codex/skills/luban/health/scripts/collect-data.sh" \
+    "$HOME/.claude/skills/luban/health/scripts/collect-data.sh"; do
     [ -f "$candidate" ] && HEALTH_SCRIPT="$candidate" && break
   done
 fi
@@ -67,12 +81,41 @@ Treat `(unavailable)` as insufficient data, not a finding. Do not flag those are
 
 The collector includes both runtime-specific and agent-agnostic surfaces:
 
-- `AGENT CONFIG SUMMARY` / `AGENT CONFIG DETAIL` for Codex, Claude, and project instruction files.
+- `AGENT CONFIG SUMMARY` / `AGENT CONFIG DETAIL` for Codex, Claude, Pi, and project instruction files.
 - `AI MAINTAINABILITY SUMMARY` / `AI MAINTAINABILITY DETAIL` for project shape, verification surface, hotspot ownership, wrappers, and doc links.
 
 ## Step 1b: MCP Live Check
 
 Test every MCP server: call one harmless tool per server. Record `live=yes/no` with error detail. Respect `enabled: false` (skip without flagging). For API keys, only check if the env var is set (`echo $VAR | head -c 5`), never print full keys.
+
+## Security Baseline Checks
+
+Run these on every audit, regardless of tier. They are the floor, not the ceiling.
+
+**Deny-list floor.** Apply this only when the project or runtime exposes agent permission settings, hook settings, MCP settings, allowed/denied tools, or a documented autonomous-agent launcher. In that case, the settings should deny, at minimum: credential and key directories (SSH, cloud providers, GPG, gh CLI), secret files (`.env`, `credentials*`, `secrets*`), pipe-to-shell installers (`curl ... | bash`, `wget ... | sh`), and outbound shells (`ssh`, `scp`, `nc`). Report this as one concise WARN with the missing categories and suggested fix; let the reviewer fill in exact local paths from the environment. If no agent settings surface exists, report the deny-list as not applicable rather than a failure.
+
+**Environment override surface.** Treat the following as attack surface, report when set in tracked files or shipped settings without a justification comment: API base-URL overrides (redirect all traffic to a third party), auto-trust flags for project-local MCP servers, wildcard tool allowlists (`allowedTools: ["*"]`), and permission-skip flags (`--dangerously-skip-permissions` or equivalents). Print file:line and the key name only; never print secrets.
+
+## Memory and Skill Supply Chain
+
+Treat agent memory and third-party skills as supply-chain artifacts. They run with the user's privileges.
+
+**Memory hygiene.** Audit the project's long-term agent memory store for secrets, tokens, or credentials (Critical), and for entries written by untrusted runs (subagent invoked on attacker-controlled input, /loop iteration over external content); recommend rotation after such runs. For high-risk one-off runs (untrusted PDFs, uncontrolled scraping, third-party scripts), recommend disabling memory persistence for that session entirely.
+
+**Skill supply chain.** Third-party skills, plugins, and MCP servers run with the user's privileges. For each one not authored in this repo, check: source pinned to a release tag (not `main` or a branch), hook handlers do not write to credential directories, MCP servers have explicit user consent (not auto-trusted by wildcard). Report unpinned sources or unreviewed hook handlers as Structural, not Critical, unless an active exploit signal is present.
+
+## Long-Running Agent Stop Conditions
+
+For projects that use `/loop`, autonomous agents, or any long-running agent flow, the project must define explicit stop conditions. An agent that never stops is a budget and safety incident waiting to happen.
+
+Audit for these four hard stop signals; flag the absence of each as a Structural finding:
+
+1. **No progress across two consecutive checkpoints.** Same files touched, same errors logged, no new commits/tests/output. Recommend killing the loop and surfacing the state, not retrying.
+2. **Repeated identical failure.** Same stack trace, same error message, same failed assertion three times in a row means the hypothesis is wrong; more attempts will not help.
+3. **Cost or token budget exceeded.** Project should declare a per-run budget (tokens, API spend, wall-clock minutes). Loop exits when the budget is hit, not when work is done.
+4. **External blockers.** Merge conflict on the target branch, dependency lock the agent cannot resolve, missing credential, network unreachable. Any of these halt the loop and ask the user, not retry forever.
+
+The stop conditions should live in tracked project docs (`AGENTS.md`, the loop's launch script, or a dedicated config), not only in the agent's prompt. Prompts are forgettable; tracked config is enforceable. Recommend hooks (PostToolUse on the relevant tools) over prompt instructions when the project supports them: a hook physically cannot be skipped, a prompt instruction can.
 
 ## Step 2: Analyze
 
@@ -116,12 +159,12 @@ Action: `git rm --cached .claude/settings.local.json && echo '.claude/settings.l
 
 Agent instructions in the wrong layer, missing hooks, oversized descriptions, verifier gaps.
 
-**Codex/Claude instruction drift.** Use `AGENT CONFIG SUMMARY` first. Report a Structural finding when `AGENTS.md` and runtime-specific files both contain substantial guidance without delegation, when Codex `config.toml` lacks trust for the current project, when project agent instructions are missing, or when runtime-specific instructions contradict the shared project source of truth. Also report when important rules live only in ignored or private local instruction overlays but the tracked/public docs lack them; those overlays are private context, not durable project source of truth. Do not print raw config values. Secrets, tokens, keys, and passwords must appear only as `[REDACTED]`.
+**Codex/Claude/Pi instruction drift.** Use `AGENT CONFIG SUMMARY` first. Report a Structural finding when `AGENTS.md` and runtime-specific files both contain substantial guidance without delegation, when Codex `config.toml` lacks trust for the current project, when Pi settings or package metadata point at missing skill roots, when project agent instructions are missing, or when runtime-specific instructions contradict the shared project source of truth. Also report when important rules live only in ignored or private local instruction overlays but the tracked/public docs lack them; those overlays are private context, not durable project source of truth. Do not print raw config values. Secrets, tokens, keys, and passwords must appear only as `[REDACTED]`.
 
 Quick check from the project root:
 
 ```bash
-bash <luban-skill-dir>/health/scripts/check-agent-context.sh . summary
+bash skills/health/scripts/check-agent-context.sh . summary
 ```
 
 **AI-maintainability gaps.** Use `AI MAINTAINABILITY SUMMARY` in summary mode and `AI MAINTAINABILITY DETAIL` in deep mode. Report `FAIL` when the project has no executable verification command, no agent instruction surface for a non-trivial repo, or broken doc references. Report `WARN` when instructions exist but lack a project map, verification guidance, boundary/non-goal language, when TODO/HACK markers are concentrated, when large source hotspots lack ownership/boundary and verification guidance, or when durable docs contain raw one-off review reports, scorecards, dated line references, or diagnostic dumps instead of stable invariants. Treat missing `docs/`, `specs/`, `.specify/`, `HANDOFF.md`, `CHANGELOG`, issue templates, and PR templates as informational unless project complexity makes them necessary for handoff. The action for stale reports is to extract stable rules into public instructions, rules, references, or verifier scripts, then remove or archive the transient report.
@@ -133,13 +176,13 @@ bash <luban-skill-dir>/health/scripts/check-agent-context.sh . summary
 Quick check from the project root:
 
 ```bash
-bash <luban-skill-dir>/health/scripts/check-maintainability.sh . summary
+bash skills/health/scripts/check-maintainability.sh . summary
 ```
 
 For deep audits:
 
 ```bash
-bash <luban-skill-dir>/health/scripts/check-maintainability.sh . deep
+bash skills/health/scripts/check-maintainability.sh . deep
 ```
 
 Keep actions concrete and non-invasive: add or fix the smallest useful instruction surface, add one executable validation command, document hotspot ownership and tests, split only when the boundary is already clear, or repair the broken reference. Do not propose broad rewrites from the script output alone.
@@ -155,7 +198,7 @@ Common offenders:
 Quick check from the project root:
 
 ```bash
-bash <luban-skill-dir>/health/scripts/check-doc-refs.sh .
+bash skills/health/scripts/check-doc-refs.sh .
 ```
 
 The checker resolves `@...` and `docs/...` from the project root, expands `~`, resolves `references/...` from each `.claude/skills/<name>/SKILL.md` directory, checks every reference on a line, skips fenced code examples, and exits non-zero when any target is missing.
@@ -167,7 +210,7 @@ Report missing references as Structural findings, not Critical, unless the missi
 **Stale verifier cache output.** If validation output points at a deleted temp worktree or non-existent `/tmp` / `/private/tmp` file, parse the captured log with:
 
 ```bash
-bash <luban-skill-dir>/health/scripts/check-verifier-output.sh . <log-file>
+bash skills/health/scripts/check-verifier-output.sh . <log-file>
 ```
 
 Only use this script for existing command output supplied by the user or generated during the current audit. Do not run project tests just to feed this checker. Known actions include `golangci-lint cache clean`, `go clean -cache -testcache`, and `npm cache verify`; unknown tools get a diagnostic rerun action.

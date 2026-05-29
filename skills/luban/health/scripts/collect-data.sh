@@ -33,16 +33,16 @@ resolve_health_helper() {
   local installed_path=""
   local candidate=""
 
-  for candidate in "$SCRIPT_DIR/$name" "./skills/luban/health/scripts/$name"; do
+  for candidate in "$SCRIPT_DIR/$name" "./skills/health/scripts/$name"; do
     if [ -f "$candidate" ]; then
       printf '%s\n' "$candidate"
       return 0
     fi
   done
 
-  installed_path="${LUBAN_SKILL_DIR:-$HOME/.agents/skills/luban}"
-  if [ -n "$installed_path" ] && [ -f "$installed_path/health/scripts/$name" ]; then
-    printf '%s\n' "$installed_path/health/scripts/$name"
+  installed_path="$(npx skills path tw93/Waza 2>/dev/null || true)"
+  if [ -n "$installed_path" ] && [ -f "$installed_path/skills/health/scripts/$name" ]; then
+    printf '%s\n' "$installed_path/skills/health/scripts/$name"
     return 0
   fi
 

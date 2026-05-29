@@ -1,0 +1,7 @@
+{
+  "repo": "https://github.com/multica-ai/andrej-karpathy-skills.git",
+  "ref": "main",
+  "commit": "2c606141936f1eeef17fa3043a72095b4765b9c2",
+  "synced_at": "2026-05-29",
+  "strategy": "refresh Square upstream reference files while preserving Luban's Square skill entrypoint"
+}

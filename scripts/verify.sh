@@ -4,6 +4,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 test -f "$ROOT/skills/luban/SKILL.md"
+test -f "$ROOT/skills/luban/.upstream-waza.json"
 test -f "$ROOT/skills/luban/scripts/discover_verify.py"
 test -f "$ROOT/skills/luban/think/SKILL.md"
 test -f "$ROOT/skills/luban/design/SKILL.md"
@@ -14,13 +15,20 @@ test -f "$ROOT/skills/luban/learn/SKILL.md"
 test -f "$ROOT/skills/luban/read/SKILL.md"
 test -f "$ROOT/skills/luban/health/SKILL.md"
 test -f "$ROOT/skills/luban/square/SKILL.md"
+test -f "$ROOT/skills/luban/square/.upstream-square.json"
 test -f "$ROOT/skills/luban/rules/durable-context.md"
 test -f "$ROOT/skills/luban/square/references/upstream/CLAUDE.md"
 test -f "$ROOT/skills/luban/square/references/upstream/.cursor/rules/square.mdc"
 test -f "$ROOT/scripts/install.sh"
 test -f "$ROOT/scripts/install-remote.sh"
+test -f "$ROOT/scripts/sync-waza.py"
+test -f "$ROOT/scripts/sync-square.py"
 
+python3 -m json.tool "$ROOT/skills/luban/.upstream-waza.json" >/dev/null
+python3 -m json.tool "$ROOT/skills/luban/square/.upstream-square.json" >/dev/null
 python3 -m py_compile "$ROOT/skills/luban/scripts/discover_verify.py"
+python3 -m py_compile "$ROOT/scripts/sync-waza.py"
+python3 -m py_compile "$ROOT/scripts/sync-square.py"
 python3 -m py_compile "$ROOT/skills/luban/check/scripts/audit_signals.py"
 python3 -m py_compile "$ROOT/skills/luban/health/scripts/check_agent_context.py"
 python3 -m py_compile "$ROOT/skills/luban/health/scripts/check_doc_refs.py"
@@ -50,6 +58,8 @@ CLAUDE_HOME="$INSTALL_TMP/claude" \
   bash "$ROOT/scripts/install.sh" >/dev/null
 
 test -f "$INSTALL_TMP/agents/skills/luban/SKILL.md"
+test -f "$INSTALL_TMP/agents/skills/luban/.upstream-waza.json"
+test -f "$INSTALL_TMP/agents/skills/luban/square/.upstream-square.json"
 test -f "$INSTALL_TMP/codex/skills/luban/SKILL.md"
 test -f "$INSTALL_TMP/claude/skills/luban/SKILL.md"
 test -f "$INSTALL_TMP/claude/skills/luban/think/SKILL.md"

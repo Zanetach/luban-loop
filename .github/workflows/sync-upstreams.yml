@@ -1,0 +1,56 @@
+name: Maintain Bundles
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: maintain-bundles
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Refresh bundled sources
+        run: |
+          python3 scripts/sync-waza.py
+          python3 scripts/sync-square.py
+
+      - name: Verify
+        run: ./scripts/verify.sh
+
+      - name: Open maintenance pull request
+        id: cpr
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: automation/maintain-bundles
+          delete-branch: true
+          title: "chore: refresh bundled sources"
+          commit-message: "chore: refresh bundled sources"
+          body: |
+            Automated maintenance update.
+
+            Verification:
+            - `./scripts/verify.sh`
+
+      - name: Enable auto-merge when allowed
+        if: steps.cpr.outputs.pull-request-number != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}
+        run: |
+          gh pr merge "$PR_NUMBER" --auto --squash || {
+            echo "Auto-merge is unavailable; pull request remains open."
+          }

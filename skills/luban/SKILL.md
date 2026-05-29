@@ -1,6 +1,6 @@
 ---
 name: luban
-description: Luban Loop end-to-end engineering workflow from requirement to implemented, verified, review-ready delivery. Use when the user asks to use Luban, build, fix, implement, ship, land, or take a simple requirement to completion. This entrypoint orchestrates Waza think/hunt/check and Quality Guardrails as a closed delivery loop.
+description: Luban Loop end-to-end engineering workflow from requirement to implemented, verified, review-ready delivery. Use when the user asks to use Luban, analyze, review, build, fix, implement, ship, land, or take a simple requirement to completion. This entrypoint orchestrates Waza think/hunt/check and Quality Guardrails as a closed delivery loop.
 license: MIT
 ---
 
@@ -80,6 +80,70 @@ Use Luban to review: <current changes>
 
 Keep the workflow light for small tasks and stricter for risky changes. Do not invoke Superpowers from this workflow.
 
+## Autonomy Contract
+
+Luban is an execution loop, not a planning checkpoint. For implement, fix, build, ship, install, configure, or "make it work" requests, continue automatically through Build -> Verify -> fix failures -> Verify again -> Check -> Seal. Do not stop after a plan unless the user explicitly asked only for analysis, strategy, or a decision plan.
+
+Default stance: decide and act. The user should normally only see progress updates and the final evidence-backed result, not approval prompts between phases. Do not ask "should I continue?", "want me to implement?", or "should I handle the remaining item?" when the answer can be inferred from the active goal and the action stays inside the stop conditions below.
+
+Use a compact plan as an internal steering artifact, then execute it in the same turn. Ask for feedback only when continuing would cross a real decision boundary:
+
+- destructive or irreversible action: delete data, reset history, publish, charge money, send messages, close issues, merge, tag, release, deploy, or modify external services
+- new runtime, framework, database, paid service, protocol, broad abstraction, or dependency not already implied by the project
+- missing credential, secret, account access, legal/business choice, or product requirement that cannot be inferred from current context
+- two plausible interpretations would produce materially different user-visible behavior or migration cost
+- verification is blocked after the same blocker has been worked around or retried with the cheapest safe recovery
+
+Everything else should be handled by stating the assumption and proceeding. If a check fails, enter Rootfinder when needed, diagnose, patch, and rerun the relevant checks. The loop ends only when the requirement is satisfied with evidence or a concrete blocker remains.
+
+## Plan Contract
+
+Plan is a contract, not a separate specialist capability. Use the agent's native planning when available; otherwise fall back to this minimal Luban shape before Build:
+
+```text
+Goal: <what must be true when done>
+Surface: <source, docs, config, schema, package, install path, service, or release surface>
+Steps: <2-5 concrete steps, each with verify>
+Stop Conditions: <only the decision boundaries that require user input>
+Done Evidence: <commands, artifacts, screenshots, runtime checks, or remote state that prove completion>
+```
+
+Rules:
+
+- Keep it compact. A plan that slows down a small fix violates Luban.
+- Every step must bind to a surface and a verification signal.
+- For implementation requests, execute after planning without asking for approval.
+- For analysis or architecture requests, the plan can be the final deliverable.
+- If the native plan lacks surface, verification, stop conditions, or done evidence, patch those gaps using this contract before building.
+
+## Continuation Contract
+
+Do not turn in-scope work into a "next step" note. If audit, review, verification, or implementation discovers a highest-value remaining item and it still fits the user's stated goal, continue the loop and handle it before Seal.
+
+Size alone is not a stop condition. A large refactor, file split, or multi-file cleanup should be planned with the Plan Contract and executed when it is the next necessary in-scope move. Stop only when the item crosses an Autonomy Contract decision boundary, contradicts the user's scope, or needs missing product/account/legal input.
+
+In Seal, list remaining debt only when it is intentionally out of scope, blocked, lower priority than the completed goal, or unsafe to continue without user input. If the handoff says "next most valuable" or "remaining main debt", it must also say why Luban did not execute it now.
+
+## User Feedback Contract
+
+Feedback requests are exceptional. Before asking, check whether the answer is already implied by the active user goal, repository context, or Autonomy Contract. If it is, proceed.
+
+Allowed feedback requests:
+
+- choose between materially different product behavior, migration shape, public API, data retention, release/deploy action, or paid/external service
+- provide a missing secret, account, license, private data source, or legal/business decision
+- approve an irreversible operation named in the Autonomy Contract
+
+Disallowed feedback requests:
+
+- asking to continue after a successful plan
+- asking whether to fix the next in-scope audit hotspot
+- asking whether to rerun or broaden verification after a relevant failure
+- asking whether to refresh generated or install surfaces required by the changed behavior
+- asking whether to do a larger in-scope refactor solely because it is larger
+
+If feedback is required, ask one precise question and pause. Otherwise continue and report the result in Seal.
+
 ## 1. Understand
 
 Read the real project context before acting:
@@ -89,11 +153,19 @@ Read the real project context before acting:
 - project instructions such as `AGENTS.md`, `CLAUDE.md`, README, manifests, Makefiles, CI, and test docs as needed
 - relevant source files before proposing edits
 
+Lock the delivery surface before planning. Name what the requested work actually ships through:
+
+- source behavior, docs, config, schema, public API, generated artifact, package/archive, release asset, deployment, or external service state
+- the files or commands that define that surface
+- what must stay explicitly out of scope
+
+If a repo has tracked generated artifacts, package manifests, release archives, docs indexes, public pages, AI/crawler files, or installer outputs, treat them as part of the delivery surface only when the change reaches them. Decide this up front instead of discovering it during handoff.
+
 Ask only when ambiguity would materially change the implementation. Otherwise state the assumption and proceed.
 
-If the request is only about product direction, architecture, or whether something should exist, read `think/SKILL.md` and stop after a decision-complete plan unless the user explicitly asks to implement.
+If the request is only about product direction, architecture, or whether something should exist, read `think/SKILL.md` and stop after a decision-complete plan unless the user explicitly asks to implement. This stop rule applies only to analysis/strategy requests, not to implement/fix/build requests.
 
-If the user asks to implement, still use `think/SKILL.md` only as much as needed to produce a compact execution plan, then continue to Build.
+If the user asks to implement, still use `think/SKILL.md` only as much as needed to produce a compact execution plan, then continue to Build without waiting for approval.
 
 ## 2. Plan
 
@@ -103,6 +175,7 @@ Apply Square / Quality Guardrails during planning:
 - choose the simplest sufficient approach
 - reject speculative abstractions and broad rewrites
 - make each success criterion verifiable
+- satisfy the Plan Contract: Goal, Surface, Steps, Stop Conditions, and Done Evidence
 
 Run repo-aware verification discovery before finalizing the plan when a repository is available. If `scripts/discover_verify.py` exists next to this `SKILL.md`, run:
 
@@ -120,6 +193,14 @@ Write a compact plan with verification attached:
 3. Final: <acceptance criterion> -> verify: <command/manual check>
 ```
 
+For each step, attach the shipped artifact or surface it affects. Examples:
+
+```text
+1. Change: update skill routing text -> surface: SKILL.md -> verify: install/grep smoke test
+2. Change: refresh release package -> surface: dist/archive -> verify: package audit + inspect entries
+3. Final: user-facing behavior installed -> surface: local skill dirs -> verify: fresh install smoke test
+```
+
 For trivial work, 2-3 sentences are enough. For larger work, include touched modules, success criteria, verification commands, API/schema/config changes, and rollback notes.
 
 Do not add a new runtime, service, framework, dependency, database, protocol, or broad abstraction without explicit approval.
@@ -134,6 +215,8 @@ Before editing code, read `square/SKILL.md`. Keep its rules active through Build
 - Match the existing style.
 - Remove only unused code introduced by this change.
 - Every changed line must trace back to the request.
+
+Keep source and shipped artifacts aligned. If the change affects a generated file, package input, installer output, release archive, public index, or machine-readable discovery file, either refresh and verify that surface or state why it is intentionally not changed.
 
 Do not enter Rootfinder by default. Read `hunt/SKILL.md` only when the task becomes a bug, regression, failing test, crash, unexpected runtime behavior, or unexplained mismatch between expected and actual output.
 
@@ -164,6 +247,8 @@ Run verification in order:
 
 If no project command exists, infer the narrowest reliable command from the stack and state that it was inferred. If verification cannot run, say exactly why and give the strongest manual check actually performed.
 
+Separate source failures from environment misses. When a declared check fails because a local dependency, font, browser, service, or tool is absent, do the cheapest safe recovery first (temporary venv, documented install, fallback env var, or read-only service probe) and rerun the check before calling the project broken. Report both the original miss and the recovered result.
+
 When the discovery script returns multiple candidates, use this priority:
 
 1. commands explicitly documented in project instructions or test docs
@@ -183,6 +268,7 @@ Review the diff against the original requirement:
 - no user work overwritten
 - no public API/schema/config change left undocumented
 - no generated artifact or package surface accidentally changed
+- every intended shipped artifact or install surface is refreshed or explicitly left out
 - no Square violation: unnecessary abstraction, broad rewrite, hidden assumption, or unverified claim
 - tests or manual checks support the completion claim
 
