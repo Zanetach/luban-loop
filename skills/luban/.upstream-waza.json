@@ -1,7 +1,7 @@
 {
   "repo": "https://github.com/tw93/Waza.git",
   "ref": "main",
-  "commit": "24e207c87daf7123e5e7ce22bf81bcb69bfa3e9e",
-  "synced_at": "2026-05-29",
+  "commit": "73ed3fd694deb2b8c7d5b0624cd85cd7838e2be0",
+  "synced_at": "2026-06-08",
   "strategy": "vendor Waza modules into skills/luban while preserving the Luban entrypoint, Square, installer, and verification scripts"
 }
